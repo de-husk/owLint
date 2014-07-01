@@ -1,3 +1,6 @@
+project/*
+target/*
+
 .DS_STORE
 [#]*[#]
 *~
