@@ -884,6 +884,7 @@
       <owl:Class rdf:about="#FishTopping"/>
     </rdfs:subClassOf>
     <rdfs:label xml:lang="pt">CoberturaDeAnchovies</rdfs:label>
+    <rdf:Description>Test</rdf:Description>
   </owl:Class>
   <owl:Class rdf:about="#Cajun">
     <owl:disjointWith>

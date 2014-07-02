@@ -43,8 +43,6 @@ object owLintStarter {
       }
     }
 
-    println(currentDirectory)
-
     // Make sure that currentDirectory exists
     if (!Files.exists(Paths.get(currentDirectory))) {
       Console.err.println(Console.RED + "Error: " + currentDirectory + " is not a real directory!\nUse -h for help information." + Console.RESET)
@@ -56,17 +54,12 @@ object owLintStarter {
     var owLintConfig: Map[String, Boolean] = Map()
 
     if (Files.exists(Paths.get(configPath))) {
-      println(".owlint found in currentDirectory")
-
       val localConfigFile = Source.fromFile(configPath).mkString
       val confJson = localConfigFile.parseJson
       owLintConfig = confJson.convertTo[Map[String, Boolean]]
     } else {
-      println(".owlint not found in currentDirectory. Use Default settings")
-
       owLintConfig = getDefaultConfig
     }
-    println(owLintConfig)
 
     // Process each *.owl file in currentDirectory
     val currFolder: File = new File(currentDirectory)
@@ -84,7 +77,7 @@ object owLintStarter {
     val owLinter = new OwLint(owLintConfig)
 
     owlFiles foreach { currentFile =>
-      println("\n*** Processing " + currentFile.getName + " ***")
+      println(Console.YELLOW + "\n*** Processing " + currentFile.getName + " ***" + Console.RESET)
 
       val owlOntology: OWLOntology =  ontologyManager.loadOntologyFromOntologyDocument(currentFile)
       println("Loaded ontology:" + owlOntology)
@@ -92,11 +85,19 @@ object owLintStarter {
       val (passes, errors) = owLinter.doesFileLint(owlOntology)
 
       if (passes == false) {
+        Console.err.println(Console.RED + "\nLint Failed!!" + Console.RESET)
+
         errors foreach { error =>
           Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
           Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
           Console.err.println(Console.RED + "\tReason For Failure:\t" + error.problemDescription +  Console.RESET)
           Console.err.println(Console.RED + "\tLine Number:\t" + error.lineNumber +  Console.RESET)
+
+          //println(error.offendingLine.length)
+         
+          error.offendingLine foreach { line =>
+            Console.err.println(Console.GREEN + "\t[" + line._1 + "] " + Console.RED  + line._2 +  Console.RESET)
+          }
           Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
         }
       } else {
@@ -110,21 +111,10 @@ object owLintStarter {
 
   def getDefaultConfig : Map[String, Boolean] = {
     // Default settings is all checks are true
+    //TODO: Put this somewhere else?
     Map (
       "entities-must-have-descriptions" -> true
     )
   }
 
 }
-
-
-
-/* TODO : 
- *  This file is the entry point of the tool.
-
- *  This file will:
- 1. Grab .owLint file in currentDirectory and override default configurations if the file exists.
- 2. For each OWL file in currentDirectory:
-     *  parse the OWL file with the OWL API 
-     *  pass the owl api file object (OWLOntology) and the config object into the constructor and get the returned owLintResponse object that has true/false for if the lint was successful and then an array of errors if it wasn't
-*/
