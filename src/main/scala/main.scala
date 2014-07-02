@@ -1,9 +1,15 @@
 /*
  Usage:
  *  This tool takes an optional argument, the absolute or relative path to the folder containing
-    the owl files in question.
+    the owl files in question. Use -h for more detail.
 */
 
+import scala.io.Source
+import scala.util.matching.{Regex}
+import java.nio.file.{Paths, Files}
+import java.io.File
+import spray.json._
+import DefaultJsonProtocol._ 
 
 
 object owLintStarter {
@@ -33,7 +39,59 @@ object owLintStarter {
 
     println(currentDirectory)
 
+    // Make sure that currentDirectory exists
+    if (!Files.exists(Paths.get(currentDirectory))) {
+      Console.err.println(Console.RED + "Error: " + currentDirectory + " is not a real directory!\nUse -h for help information." + Console.RESET)
+      sys.exit(1)
+    }
+
+    // Read in .owlint config if the file exists
+    val configPath = currentDirectory + "/.owlint" 
+    var owLintConfig: Map[String, Boolean] = Map()
+
+    if (Files.exists(Paths.get(configPath))) {
+      println(".owlint found in currentDirectory")
+
+      val localConfigFile = Source.fromFile(configPath).mkString
+      val confJson = localConfigFile.parseJson
+      owLintConfig = confJson.convertTo[Map[String, Boolean]]
+    } else {
+      println(".owlint not found in currentDirectory. Use Default settings")
+      owLintConfig = getDefaultConfig
+    }
+    println(owLintConfig)
+
+    // Process each *.owl file in currentDirectory
+    val currFolder: File = new File(currentDirectory)
+    val listOfFiles = currFolder.listFiles()
+    val owlFileRegex = """.+\.owl""".r
+
+    val owlFiles =  listOfFiles filter(f => owlFileRegex.pattern.matcher(f.getName).matches)
+
+    if (owlFiles.length == 0) {
+      Console.err.println(Console.RED + "Error: " + currentDirectory + " has no owl files!\nUse -h for help information." + Console.RESET)
+      sys.exit(1)
+    }
+
+    owlFiles foreach { currentFile =>
+      println("*** Processing " + currentFile.getName + " ***")
+
+
+
+
+    }
+
+
+
   }
+
+  def getDefaultConfig : Map[String, Boolean] = {
+    // Default settings is all checks are true
+    Map (
+      "entities-must-have-descriptions" -> true
+    )
+  }
+
 }
 
 
