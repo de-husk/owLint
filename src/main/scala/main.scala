@@ -4,12 +4,18 @@
     the owl files in question. Use -h for more detail.
 */
 
+import owLint._
+
 import scala.io.Source
-import scala.util.matching.{Regex}
+import scala.util.matching.Regex
 import java.nio.file.{Paths, Files}
 import java.io.File
 import spray.json._
 import DefaultJsonProtocol._ 
+
+import org.semanticweb.owlapi.model.OWLOntologyManager
+import org.semanticweb.owlapi.apibinding.OWLManager
+import org.semanticweb.owlapi.model.OWLOntology
 
 
 object owLintStarter {
@@ -57,6 +63,7 @@ object owLintStarter {
       owLintConfig = confJson.convertTo[Map[String, Boolean]]
     } else {
       println(".owlint not found in currentDirectory. Use Default settings")
+
       owLintConfig = getDefaultConfig
     }
     println(owLintConfig)
@@ -73,12 +80,28 @@ object owLintStarter {
       sys.exit(1)
     }
 
+    val ontologyManager: OWLOntologyManager = OWLManager.createOWLOntologyManager
+    val owLinter = new OwLint(owLintConfig)
+
     owlFiles foreach { currentFile =>
-      println("*** Processing " + currentFile.getName + " ***")
+      println("\n*** Processing " + currentFile.getName + " ***")
 
+      val owlOntology: OWLOntology =  ontologyManager.loadOntologyFromOntologyDocument(currentFile)
+      println("Loaded ontology:" + owlOntology)
 
+      val (passes, errors) = owLinter.doesFileLint(owlOntology)
 
-
+      if (passes == false) {
+        errors foreach { error =>
+          Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
+          Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
+          Console.err.println(Console.RED + "\tReason For Failure:\t" + error.problemDescription +  Console.RESET)
+          Console.err.println(Console.RED + "\tLine Number:\t" + error.lineNumber +  Console.RESET)
+          Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
+        }
+      } else {
+        println("[" + Console.GREEN + "success" + Console.RESET + "] " + currentFile.getName +   " successfully lints!" + Console.RESET)
+      }
     }
 
 
