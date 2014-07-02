@@ -8,7 +8,7 @@
 
 object owLintStarter {
   def main (args: Array[String]) = {
-    
+
     if (args.contains("-h") || args.contains("-help")) {
       // Display help information
       println(Console.UNDERLINED + "owLint: OWL file linting tool " + Console.RESET)
@@ -22,22 +22,16 @@ object owLintStarter {
       sys.exit(0)
     }
 
-
-    if (args.length == 0) {
-      // Use current dir as currentDirectory
-
-
-    } else if (args.length == 1) {
-      // Use inputted dir as currentDirectory
-
-
-    } else {
-      // Return an error and exit because this tool only takes one argument
-      Console.err.println(Console.RED + "Error: owLint only takes one argument!\nUse -h for help information." + Console.RESET)
-      sys.exit(1)
+    val currentDirectory = args.length match {
+      case 0 => System.getProperty("user.dir") // Use current dir as currentDirectory
+      case 1 => args(0)                        // Use inputted dir as currentDirectory
+      case moreThanOne => {                    // Return an error and exit because this tool only takes one argument
+        Console.err.println(Console.RED + "Error: owLint only takes one argument!\nUse -h for help information." + Console.RESET)
+        sys.exit(1)
+      }
     }
 
-
+    println(currentDirectory)
 
   }
 }
