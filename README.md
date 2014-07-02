@@ -4,7 +4,6 @@ owLint
 
 owLint is a configurable, command line OWL file linter.
 
-
 Usage
 =====
 
@@ -25,9 +24,7 @@ This will enable the "entities-must-have-descriptions" test. By default all of t
 List of linter tests
 =====================
 
-
-
-
+TODO
 
 Development
 ===========
@@ -40,7 +37,12 @@ Every lint tester function has the following defintion:
 
 ###Output:
  * A Tuple containing whether or not the test was successful, and then a list of Tuples each containing the type of the offending thing and the string of the offending thing.
-    
-    TODO: Take the offending thing tuple and make it into a case class named: OffendingThing
+ 
+   
+TODO: Take the offending thing tuple and make it into a case class named: OffendingThing
 
+
+Screenshots
+===========
+![screenshot](http://i.imgur.com/aKP7x86.png)
 
