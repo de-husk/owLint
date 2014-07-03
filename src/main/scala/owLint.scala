@@ -1,7 +1,5 @@
 package owLint;
 
-//TODO: refactor some of these tuples into case classes
-
 import org.semanticweb.owlapi.model.OWLOntology
 
 class OwLint (config: Map[String, Boolean]) {
@@ -20,37 +18,37 @@ class OwLint (config: Map[String, Boolean]) {
         if (!lintResults._1) {
           //This test fails
           passes = false
-          errors = errors :+ OwLintError(0, lintTesterRunner._2._2, lintResults._2)
+          errors = errors :+ OwLintError(lintTesterRunner._2._2, lintResults._2)
         }
-
       }
     }
     (passes, errors)
   }
 
-  val lintTestMappings: Map [String, Tuple2[Function1[OWLOntology, (Boolean, List[(String, String)])], String]] = 
+  val lintTestMappings: Map [String, Tuple2[Function1[OWLOntology, (Boolean, List[OffendingInstance])], String]] = 
     Map (
-      "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entites must have description attributes.")
+      "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entities must have description attributes.")
     )
 
 
-  case class OwLintError(
-    lineNumber: Int = 0,
+  case class OwLintError (
     problemDescription: String = "",
-    offendingLine: List[(String, String)] = List[(String, String)]()
+    offendingLines: List[OffendingInstance] = List[OffendingInstance]()
+  )
+
+  case class OffendingInstance (
+    tyype: String,  // TODO: Or do I want the actual OWL EntityType
+    content: String
   )
 
 
-
-
   // linting tests live below:
-  // TODO: put these in a different class?
+  //Return:  (didItLint, List[OffendingInstance])
 
-  //Return:  (didItLint, List[(OWLEntityType, offendingLine)])
-  def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[(String, String)]) = {
+  def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     //TODO: change from classes to all entities
     val classes = ontology.getClassesInSignature.iterator
-    var offendingLines: List[(String, String)] = List()
+    var offendingLines: List[OffendingInstance] = List()
     var passes = true
 
     while (classes.hasNext) {
@@ -73,7 +71,7 @@ class OwLint (config: Map[String, Boolean]) {
 
       if (!hasSeenDescription) {
         val tyype = clazz.getEntityType.getName
-        offendingLines = offendingLines :+ (tyype, clazz.getIRI.toString)
+        offendingLines = offendingLines :+ OffendingInstance(tyype, clazz.getIRI.toString)
         passes = false
       }
     }

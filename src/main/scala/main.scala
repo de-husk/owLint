@@ -91,12 +91,10 @@ object owLintStarter {
           Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
           Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
           Console.err.println(Console.RED + "\tReason For Failure:\t" + error.problemDescription +  Console.RESET)
-          Console.err.println(Console.RED + "\tLine Number:\t" + error.lineNumber +  Console.RESET)
-
-          //println(error.offendingLine.length)
+          Console.err.println(Console.RED + "\tNumber of offenses:\t" + error.offendingLines.length +  Console.RESET)
          
-          error.offendingLine foreach { line =>
-            Console.err.println(Console.GREEN + "\t[" + line._1 + "] " + Console.RED  + line._2 +  Console.RESET)
+          error.offendingLines foreach { line =>
+            Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  + line.content +  Console.RESET)
           }
           Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
         }
@@ -104,15 +102,11 @@ object owLintStarter {
         println("[" + Console.GREEN + "success" + Console.RESET + "] " + currentFile.getName +   " successfully lints!" + Console.RESET)
       }
     }
-
-
-
   }
 
   def getDefaultConfig : Map[String, Boolean] = {
     // Default settings is all checks are true
-    //TODO: Put this somewhere else?
-    Map (
+     Map (
       "entities-must-have-descriptions" -> true
     )
   }
