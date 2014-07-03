@@ -64,8 +64,6 @@ class OwLint (config: Map[String, Boolean]) {
 
         if (a.getProperty.toString == "rdf:Description") {
           hasSeenDescription = true
-
-          println(clazz.isOWLClass)
         }
       }
 

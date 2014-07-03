@@ -1,6 +1,5 @@
-project/*
-target/*
-
+target/
 .DS_STORE
+
 [#]*[#]
 *~
