@@ -36,11 +36,8 @@ Every lint tester function has the following defintion:
  * an OWLOntology object
 
 ###Output:
- * A Tuple containing whether or not the test was successful, and then a list of Tuples each containing the type of the offending thing and the string of the offending thing.
- 
+ * A Tuple containing whether or not the test was successful, and an OffendingInstance case class object.
    
-TODO: Take the offending thing tuple and make it into a case class named: OffendingThing
-
 
 Screenshots
 ===========
