@@ -82,24 +82,27 @@ object owLintStarter {
       val owlOntology: OWLOntology =  ontologyManager.loadOntologyFromOntologyDocument(currentFile)
       println("Loaded ontology:" + owlOntology)
 
-      val (passes, errors) = owLinter.doesFileLint(owlOntology)
+      val results = owLinter.doesFileLint(owlOntology)
 
-      if (passes == false) {
-        Console.err.println(Console.RED + "\nLint Failed!!" + Console.RESET)
+      results foreach { result =>
+        val passes = result._1.success
+        val errors = result._2
+        if (passes == false) {
+          Console.println(Console.RED + "\nLint Failed!!" + Console.RESET)
 
-        errors foreach { error =>
           Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
           Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
-          Console.err.println(Console.RED + "\tReason For Failure:\t" + error.problemDescription +  Console.RESET)
-          Console.err.println(Console.RED + "\tNumber of offenses:\t" + error.offendingLines.length +  Console.RESET)
-         
-          error.offendingLines foreach { line =>
+          Console.err.println(Console.RED + "\tReason For Failure:\t" + errors.problemDescription +  Console.RESET)
+          Console.err.println(Console.RED + "\tNumber of offenses:\t" + errors.offendingLines.length +  Console.RESET)
+
+          errors.offendingLines foreach { line =>
             Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  + line.content +  Console.RESET)
           }
-          Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
+            Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
+
+        } else {
+          println("[" + Console.GREEN + "success" + Console.RESET + "] " + result._1.name  +   " successfully passed!" + Console.RESET)
         }
-      } else {
-        println("[" + Console.GREEN + "success" + Console.RESET + "] " + currentFile.getName +   " successfully lints!" + Console.RESET)
       }
     }
   }

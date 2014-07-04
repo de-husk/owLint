@@ -1,12 +1,15 @@
 package owLint;
 
 import org.semanticweb.owlapi.model.OWLOntology
+import collection.JavaConversions._
 
 class OwLint (config: Map[String, Boolean]) {
 
-  def doesFileLint (ontology: OWLOntology) : (Boolean, Array[OwLintError]) = { 
-    var passes = true
-    var errors: Array[OwLintError] = Array[OwLintError]()
+  //TODO: change CurrentLint to Lint and put OwLintError inside of it
+  //TODO: change the name of OwLintError to OwlLintErrors to be clear
+
+  def doesFileLint (ontology: OWLOntology) : List[(CurrentLint, OwLintError)] = { 
+    var resultList: List[(CurrentLint, OwLintError)] = List[(CurrentLint, OwLintError)]()
 
     config foreach { conf =>
       if (conf._2 == true) {
@@ -17,19 +20,26 @@ class OwLint (config: Map[String, Boolean]) {
 
         if (!lintResults._1) {
           //This test fails
-          passes = false
-          errors = errors :+ OwLintError(lintTesterRunner._2._2, lintResults._2)
+          resultList = resultList :+ (CurrentLint(false, conf._1),  OwLintError(lintTesterRunner._2._2, lintResults._2))
+        } else {
+          //This test passes
+          resultList = resultList :+ (CurrentLint(true, conf._1), OwLintError())
         }
       }
     }
-    (passes, errors)
+    resultList
   }
 
   val lintTestMappings: Map [String, Tuple2[Function1[OWLOntology, (Boolean, List[OffendingInstance])], String]] = 
     Map (
-      "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entities must have description attributes.")
+      "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entities must have description attributes."),
+      "ontology-must-have-version-info" -> Tuple2(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation.")
     )
 
+  case class CurrentLint (
+    success: Boolean,
+    name: String
+  )
 
   case class OwLintError (
     problemDescription: String = "",
@@ -44,6 +54,21 @@ class OwLint (config: Map[String, Boolean]) {
 
   // linting tests live below:
   //Return:  (didItLint, List[OffendingInstance])
+
+
+  // ontology-must-have-version-info test
+  def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
+    val versionInfo = annotations.filter(a => a.toString  == "owl:versionInfo")
+
+    if (versionInfo.length == 0) {
+      return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "owl:versionInfo")))
+    }
+    (true, List())
+  }
+
+
+
 
   def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     //TODO: change from classes to all entities
