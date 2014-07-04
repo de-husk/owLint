@@ -6,10 +6,8 @@ import collection.JavaConversions._
 class OwLint (config: Map[String, Boolean]) {
 
   //TODO: change CurrentLint to Lint and put OwLintError inside of it
-  //TODO: change the name of OwLintError to OwlLintErrors to be clear
-
-  def doesFileLint (ontology: OWLOntology) : List[(CurrentLint, OwLintError)] = { 
-    var resultList: List[(CurrentLint, OwLintError)] = List[(CurrentLint, OwLintError)]()
+  def doesFileLint (ontology: OWLOntology) : List[(CurrentLint, OwLintErrors)] = { 
+    var resultList: List[(CurrentLint, OwLintErrors)] = List[(CurrentLint, OwLintErrors)]()
 
     config foreach { conf =>
       if (conf._2 == true) {
@@ -20,10 +18,10 @@ class OwLint (config: Map[String, Boolean]) {
 
         if (!lintResults._1) {
           //This test fails
-          resultList = resultList :+ (CurrentLint(false, conf._1),  OwLintError(lintTesterRunner._2._2, lintResults._2))
+          resultList = resultList :+ (CurrentLint(false, conf._1), OwLintErrors(lintTesterRunner._2._2, lintResults._2))
         } else {
           //This test passes
-          resultList = resultList :+ (CurrentLint(true, conf._1), OwLintError())
+          resultList = resultList :+ (CurrentLint(true, conf._1), OwLintErrors())
         }
       }
     }
@@ -41,7 +39,7 @@ class OwLint (config: Map[String, Boolean]) {
     name: String
   )
 
-  case class OwLintError (
+  case class OwLintErrors (
     problemDescription: String = "",
     offendingLines: List[OffendingInstance] = List[OffendingInstance]()
   )

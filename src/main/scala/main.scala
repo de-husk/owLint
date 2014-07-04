@@ -110,7 +110,7 @@ object owLintStarter {
   def getDefaultConfig : Map[String, Boolean] = {
     // Default settings is all checks are true
      Map (
-      "entities-must-have-descriptions" -> true
+       "ontology-must-have-version-info" -> true
     )
   }
 

@@ -1,4 +1,4 @@
 {
   "ontology-must-have-version-info" : true,
-  "entities-must-have-descriptions" : true
+  "entities-must-have-descriptions" : false
 }
