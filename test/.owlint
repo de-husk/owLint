@@ -1,4 +1,5 @@
 {
   "ontology-must-have-version-info" : true,
+  "ontology-must-have-dc-title" : true,
   "entities-must-have-descriptions" : false
 }
