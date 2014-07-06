@@ -33,7 +33,8 @@ class OwLint (config: Map[String, Boolean]) {
     Map (
       "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entities must have description attributes."),
       "ontology-must-have-version-info" -> Tuple2(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation."),
-      "ontology-must-have-dc-title" -> Tuple2(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation")
+      "ontology-must-have-dc-title" -> Tuple2(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
+      "ontology-must-have-dc-creator" -> Tuple2(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation")
     )
 
   case class CurrentLint (
@@ -71,13 +72,25 @@ class OwLint (config: Map[String, Boolean]) {
   def ontologyMustHaveDCTitle (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
     val versionInfo = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/title>")
-    println(annotations)
 
     if (versionInfo.length == 0) {
       return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/title")))
     }
     (true, List())
   }
+
+  // ontology-must-have-dc-creator
+  def ontologyMustHaveDCCreator (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
+    val versionInfo = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/creator>")
+
+    if (versionInfo.length == 0) {
+      return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/creator")))
+    }
+    (true, List())
+  }
+
+
 
 
   def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {

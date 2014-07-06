@@ -111,7 +111,8 @@ object owLintStarter {
     // Default settings is all checks are true
      Map (
        "ontology-must-have-version-info" -> true, 
-       "ontology-must-have-dc-title" -> true
+       "ontology-must-have-dc-title" -> true,
+       "ontology-must-have-dc-creator" -> true
     )
   }
 
