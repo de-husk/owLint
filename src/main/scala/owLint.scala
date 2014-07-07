@@ -1,6 +1,6 @@
 package owLint;
 
-import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model._
 import org.semanticweb.owlapi.model.OWLOntology
 import collection.JavaConversions._
 
@@ -34,7 +34,8 @@ class OwLint (config: Map[String, Boolean]) {
       "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entities must have description attributes."),
       "ontology-must-have-version-info" -> Tuple2(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation."),
       "ontology-must-have-dc-title" -> Tuple2(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
-      "ontology-must-have-dc-creator" -> Tuple2(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation")
+      "ontology-must-have-dc-creator" -> Tuple2(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
+      "ontology-must-have-only-one-dc-creator" -> Tuple2(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator attribute.")
     )
 
   case class CurrentLint (
@@ -56,6 +57,8 @@ class OwLint (config: Map[String, Boolean]) {
   // linting tests live below:
   //Return:  (didItLint, List[OffendingInstance])
 
+  //TODO: DRY up this code
+  //TODO: Better way to grab a single annotation via IRI?
 
   // ontology-must-have-version-info test
   def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
@@ -71,9 +74,9 @@ class OwLint (config: Map[String, Boolean]) {
   // ontology-must-have-dc-title
   def ontologyMustHaveDCTitle (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
-    val versionInfo = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/title>")
+    val titles = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/title>")
 
-    if (versionInfo.length == 0) {
+    if (titles.length == 0) {
       return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/title")))
     }
     (true, List())
@@ -82,15 +85,35 @@ class OwLint (config: Map[String, Boolean]) {
   // ontology-must-have-dc-creator
   def ontologyMustHaveDCCreator (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
-    val versionInfo = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/creator>")
+    val creators = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/creator>")
 
-    if (versionInfo.length == 0) {
+    if (creators.length == 0) {
       return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/creator")))
     }
     (true, List())
   }
 
+  // ontology-must-have-only-one-dc-creator
+  def ontologyMustHaveOneDCCreator  (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val annotations: List[OWLAnnotation] = ontology.getAnnotations.toList
+    val creators = annotations.filter(a => a.getProperty.getIRI.toString == "http://purl.org/dc/elements/1.1/creator")
 
+    if (creators.length != 0) {
+      val creator = creators(0)
+      val creatorNames = creator.getValue
+
+      val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
+
+      val matches = invalidCreatorReg.findFirstMatchIn(creatorNames.toString) match {
+        case Some(m) => true
+        case None => false
+      }
+
+      if (matches)
+        return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/creator")))
+    }
+    return (true, List())
+  } 
 
 
   def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
