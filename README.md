@@ -23,8 +23,11 @@ This will enable the "entities-must-have-descriptions" test. By default all of t
 
 List of linter tests
 =====================
-
-TODO
+  * ontology-must-have-version-info
+  * ontology-must-have-dc-title
+  * ontology-must-have-dc-creator
+  * ontology-must-have-only-one-dc-creator
+  
 
 Development
 ===========
