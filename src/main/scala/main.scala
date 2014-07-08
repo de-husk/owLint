@@ -21,6 +21,61 @@ import org.semanticweb.owlapi.model.OWLOntology
 object owLintStarter {
   //TODO: write tests for all of these functions
 
+  def main (args: Array[String]) = {
+    deliverHelpTextIfNeeded(args)
+    
+    val currentDirectory = getCurrentDirectory(args)
+
+    if (!isValidDirectoryPath(currentDirectory)) {
+      Console.err.println(Console.RED + "Error: " + currentDirectory + " is not a real directory!\nUse -h for help information." + Console.RESET)
+      sys.exit(1)
+    }
+
+    val owLintConfig: Map[String, Boolean] = getOwLintConfig(currentDirectory)
+
+    // Process each *.owl file in currentDirectory
+    val owlFiles = getOwlFilesInCurrDirectory(currentDirectory)
+
+    if (owlFiles.length == 0) {
+      Console.err.println(Console.RED + "Error: " + currentDirectory + " has no owl files!\nUse -h for help information." + Console.RESET)
+      sys.exit(1)
+    }
+
+    val ontologyManager: OWLOntologyManager = OWLManager.createOWLOntologyManager
+    val owLinter = new OwLint(owLintConfig)
+
+    owlFiles foreach { currentFile =>
+      println(Console.YELLOW + "\n*** Processing " + currentFile.getName + " ***" + Console.RESET)
+
+      val owlOntology: OWLOntology =  ontologyManager.loadOntologyFromOntologyDocument(currentFile)
+      println("Loaded ontology:" + owlOntology)
+
+      // Lint the currently loaded owl file
+      val results = owLinter.doesFileLint(owlOntology)
+
+      results foreach { result =>
+        val passes = result._1.success
+        val errors = result._2
+        if (passes == false) {
+          Console.println(Console.RED + "\nLint Failed!!" + Console.RESET)
+
+          Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
+          Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
+          Console.err.println(Console.RED + "\tReason For Failure:\t" + errors.problemDescription +  Console.RESET)
+          Console.err.println(Console.RED + "\tNumber of offenses:\t" + errors.offendingLines.length +  Console.RESET)
+
+          errors.offendingLines foreach { line =>
+            Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  + line.content +  Console.RESET)
+          }
+            Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
+
+        } else {
+          println("[" + Console.GREEN + "success" + Console.RESET + "] " + result._1.name  +   " successfully passed!" + Console.RESET)
+        }
+      }
+    }
+  }
+
   def deliverHelpTextIfNeeded (args: Array[String]) = {
     if (args.contains("-h") || args.contains("-help")) {
       // Display help information
@@ -76,62 +131,4 @@ object owLintStarter {
 
     listOfFiles filter(f => owlFileRegex.pattern.matcher(f.getName).matches)
   }
-
-  def main (args: Array[String]) = {
-
-    deliverHelpTextIfNeeded(args)
-    
-    val currentDirectory = getCurrentDirectory(args)
-
-    if (!isValidDirectoryPath(currentDirectory)) {
-      Console.err.println(Console.RED + "Error: " + currentDirectory + " is not a real directory!\nUse -h for help information." + Console.RESET)
-      sys.exit(1)
-    }
-
-    val owLintConfig: Map[String, Boolean] = getOwLintConfig(currentDirectory)
-
-    // Process each *.owl file in currentDirectory
-    val owlFiles = getOwlFilesInCurrDirectory(currentDirectory)
-
-    if (owlFiles.length == 0) {
-      Console.err.println(Console.RED + "Error: " + currentDirectory + " has no owl files!\nUse -h for help information." + Console.RESET)
-      sys.exit(1)
-    }
-
-    val ontologyManager: OWLOntologyManager = OWLManager.createOWLOntologyManager
-    val owLinter = new OwLint(owLintConfig)
-
-    owlFiles foreach { currentFile =>
-      println(Console.YELLOW + "\n*** Processing " + currentFile.getName + " ***" + Console.RESET)
-
-      val owlOntology: OWLOntology =  ontologyManager.loadOntologyFromOntologyDocument(currentFile)
-      println("Loaded ontology:" + owlOntology)
-
-      // Lint the currently loaded owl file
-      val results = owLinter.doesFileLint(owlOntology)
-
-      results foreach { result =>
-        val passes = result._1.success
-        val errors = result._2
-        if (passes == false) {
-          Console.println(Console.RED + "\nLint Failed!!" + Console.RESET)
-
-          Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
-          Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
-          Console.err.println(Console.RED + "\tReason For Failure:\t" + errors.problemDescription +  Console.RESET)
-          Console.err.println(Console.RED + "\tNumber of offenses:\t" + errors.offendingLines.length +  Console.RESET)
-
-          errors.offendingLines foreach { line =>
-            Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  + line.content +  Console.RESET)
-          }
-            Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
-
-        } else {
-          println("[" + Console.GREEN + "success" + Console.RESET + "] " + result._1.name  +   " successfully passed!" + Console.RESET)
-        }
-      }
-    }
-  }
-
-
 }
