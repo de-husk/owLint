@@ -10,5 +10,5 @@ resolvers += "spray" at "http://repo.spray.io/"
 libraryDependencies ++= Seq(
   "net.sourceforge.owlapi" % "owlapi-distribution" % "3.4.5",
   "io.spray" %%  "spray-json" % "1.2.6",
-  "org.scalatest" % "scalatest_2.11" % "2.2.0" % "test"
-)     
+  "org.scalatest" %% "scalatest" % "2.2.0" % "test"
+)
