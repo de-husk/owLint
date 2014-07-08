@@ -6,41 +6,41 @@ import collection.JavaConversions._
 
 class OwLint (config: Map[String, Boolean]) {
 
-  //TODO: change CurrentLint to Lint and put OwLintError inside of it
-  def doesFileLint (ontology: OWLOntology) : List[(CurrentLint, OwLintErrors)] = { 
-    var resultList: List[(CurrentLint, OwLintErrors)] = List[(CurrentLint, OwLintErrors)]()
+  def doesFileLint (ontology: OWLOntology) : List[LintResult] = { 
+    var resultList: List[LintResult] = List[LintResult]()
 
     config foreach { conf =>
       if (conf._2 == true) {
         val lintTesterRunner = lintTestMappings.find({case (a, b) => a == conf._1}).get
 
         //Run the lintTest Function
-        val lintResults = lintTesterRunner._2._1(ontology)
+        val lintResults = lintTesterRunner._2.function(ontology)
 
         if (!lintResults._1) {
           //This test fails
-          resultList = resultList :+ (CurrentLint(false, conf._1), OwLintErrors(lintTesterRunner._2._2, lintResults._2))
+          resultList = resultList :+ LintResult(false, conf._1, OwLintErrors(lintTesterRunner._2.description, lintResults._2))
         } else {
           //This test passes
-          resultList = resultList :+ (CurrentLint(true, conf._1), OwLintErrors())
+          resultList = resultList :+ LintResult(true, conf._1, OwLintErrors())
         }
       }
     }
     resultList
   }
 
-  val lintTestMappings: Map [String, Tuple2[Function1[OWLOntology, (Boolean, List[OffendingInstance])], String]] = 
+  val lintTestMappings: Map [String, LintFunctionDef] = 
     Map (
-      "entities-must-have-descriptions" -> Tuple2(entitiesMustHaveDescriptions, "All entities must have description attributes."),
-      "ontology-must-have-version-info" -> Tuple2(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation."),
-      "ontology-must-have-dc-title" -> Tuple2(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
-      "ontology-must-have-dc-creator" -> Tuple2(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
-      "ontology-must-have-only-one-dc-creator" -> Tuple2(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator attribute.")
+      "entities-must-have-descriptions" -> LintFunctionDef(entitiesMustHaveDescriptions, "All entities must have description attributes."),
+      "ontology-must-have-version-info" -> LintFunctionDef(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation."),
+      "ontology-must-have-dc-title" -> LintFunctionDef(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
+      "ontology-must-have-dc-creator" -> LintFunctionDef(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
+      "ontology-must-have-only-one-dc-creator" -> LintFunctionDef(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator attribute.")
     )
 
-  case class CurrentLint (
+  case class LintResult (
     success: Boolean,
-    name: String
+    name: String,
+    errors: OwLintErrors
   )
 
   case class OwLintErrors (
@@ -51,6 +51,11 @@ class OwLint (config: Map[String, Boolean]) {
   case class OffendingInstance (
     tyype: String,  // TODO: Or do I want the actual OWL EntityType
     content: String
+  )
+
+  case class LintFunctionDef (
+    function: Function1[OWLOntology, (Boolean, List[OffendingInstance])],
+    description: String
   )
 
 

@@ -54,8 +54,8 @@ object owLintStarter {
       val results = owLinter.doesFileLint(owlOntology)
 
       results foreach { result =>
-        val passes = result._1.success
-        val errors = result._2
+        val passes = result.success
+        val errors = result.errors
         if (passes == false) {
           Console.println(Console.RED + "\nLint Failed!!" + Console.RESET)
 
@@ -70,7 +70,7 @@ object owLintStarter {
             Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
 
         } else {
-          println("[" + Console.GREEN + "success" + Console.RESET + "] " + result._1.name  +   " successfully passed!" + Console.RESET)
+          println("[" + Console.GREEN + "success" + Console.RESET + "] " + result.name  +   " successfully passed!" + Console.RESET)
         }
       }
     }
