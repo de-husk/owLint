@@ -21,7 +21,6 @@ class MainTestsSpec extends FlatSpec with Matchers {
     assert(currentDirectory == None)
   }
 
-
   "isValidDirectoryPath" should "return true for a valid directory" in {
     val validDirectoryPath = "./test"
     val isValidDirectoryPath = owLintStarter.isValidDirectoryPath(validDirectoryPath)

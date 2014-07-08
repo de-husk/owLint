@@ -19,7 +19,6 @@ import org.semanticweb.owlapi.model.OWLOntology
 
 //TODO: this object should be InitCapped
 object owLintStarter {
-  //TODO: write tests for all of these functions
 
   def main (args: Array[String]) = {
     deliverHelpTextIfNeeded(args)
