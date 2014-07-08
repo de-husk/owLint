@@ -17,14 +17,17 @@ import org.semanticweb.owlapi.model.OWLOntologyManager
 import org.semanticweb.owlapi.apibinding.OWLManager
 import org.semanticweb.owlapi.model.OWLOntology
 
-
+//TODO: this object should be InitCapped
 object owLintStarter {
   //TODO: write tests for all of these functions
 
   def main (args: Array[String]) = {
     deliverHelpTextIfNeeded(args)
     
-    val currentDirectory = getCurrentDirectory(args)
+    val currentDirectory = getCurrentDirectory(args) match { 
+      case Some(c) => c
+      case None => sys.exit(1)
+    }
 
     if (!isValidDirectoryPath(currentDirectory)) {
       Console.err.println(Console.RED + "Error: " + currentDirectory + " is not a real directory!\nUse -h for help information." + Console.RESET)
@@ -76,6 +79,7 @@ object owLintStarter {
     }
   }
 
+ 
   def deliverHelpTextIfNeeded (args: Array[String]) = {
     if (args.contains("-h") || args.contains("-help")) {
       // Display help information
@@ -91,13 +95,14 @@ object owLintStarter {
     }
   }
 
-  def getCurrentDirectory (args: Array[String]): String = {
+
+  def getCurrentDirectory (args: Array[String]): Option[String] = {
     args.length match {
-      case 0 => System.getProperty("user.dir") // Use current dir as currentDirectory
-      case 1 => args(0)                        // Use inputted dir as currentDirectory
-      case moreThanOne => {                    // Return an error and exit because this tool only takes one argument
+      case 0 => Some(System.getProperty("user.dir")) // Use current dir as currentDirectory
+      case 1 => Some(args(0))                        // Use inputted dir as currentDirectory
+      case moreThanOne => {                          // Return an error and exit because this tool only takes one argument
         Console.err.println(Console.RED + "Error: owLint only takes one argument!\nUse -h for help information." + Console.RESET)
-        sys.exit(1)
+        None
       }
     }
   }
