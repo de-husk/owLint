@@ -27,6 +27,7 @@ List of linter tests
   * ontology-must-have-dc-title
   * ontology-must-have-dc-creator
   * ontology-must-have-only-one-dc-creator
+  * entities-must-have-descriptions
   
 
 Development
