@@ -32,15 +32,22 @@ List of linter tests
 Development
 ===========
 
-To add more tests add to the lintTestMappings Map [String, Tuple2[Function1[OWLOntology, (Boolean, List[(String, String)])], String]] in OwLint.scala, and be sure to add the implementation of the linked Function1 you define. See the existing mappings for examples
+###Compliling
+sbt compile
 
-Every lint tester function has the following defintion:
-###Input:
- * an OWLOntology object
+###Building and Running
+sbt "run -help"
 
-###Output:
- * A Tuple containing whether or not the test was successful, and an OffendingInstance case class object.
-   
+###Testing
+sbt test
+
+###Adding additional linter tests
+To add your linter function and full text description to the lintTestMappings Map.
+
+The linter function you add must be in the following format:
+
+def superCoolLinterTest (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {/**/}
+
 
 Screenshots
 ===========
