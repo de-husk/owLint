@@ -21,7 +21,7 @@ an example .owlint file is seen below
 This will enable the "entities-must-have-descriptions" test. By default all of the tests are enabled.
 
 
-List of linter tests
+List of Options
 =====================
   * ontology-must-have-version-info
   * ontology-must-have-dc-title
