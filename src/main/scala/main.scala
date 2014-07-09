@@ -67,7 +67,7 @@ object owLintStarter {
           Console.err.println(Console.RED + "\tNumber of offenses:\t" + errors.offendingLines.length +  Console.RESET)
 
           errors.offendingLines foreach { line =>
-            Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  + line.content +  Console.RESET)
+            Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  +"\t" + line.content +  Console.RESET)
           }
             Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
 
