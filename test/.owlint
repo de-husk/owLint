@@ -3,5 +3,5 @@
   "ontology-must-have-dc-title" : true,
   "ontology-must-have-dc-creator" : true,
   "ontology-must-have-only-one-dc-creator" : true,
-  "entities-must-have-descriptions" : false
+  "entities-must-have-descriptions" : true
 }

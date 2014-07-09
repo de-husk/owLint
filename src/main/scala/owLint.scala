@@ -67,45 +67,72 @@ class OwLint (config: Map[String, Boolean]) {
 
   // ontology-must-have-version-info test
   def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
-    val versionInfo = annotations.filter(a => a.toString  == "owl:versionInfo")
+    val versionInfo = ontology
+      .getAnnotationPropertiesInSignature
+      .toList
+      .find(a => a.getIRI.toString == "http://www.w3.org/2002/07/owl#versionInfo")
+    
+    val hasVersionInfo = versionInfo match {
+      case Some(v) => true
+      case None => false    
+    }
 
-    if (versionInfo.length == 0) {
-      return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "owl:versionInfo")))
+    if (!hasVersionInfo) {
+      return (false, List(OffendingInstance("AnnotationProperty", "http://www.w3.org/2002/07/owl#versionInfo")))
     }
     (true, List())
   }
 
   // ontology-must-have-dc-title
   def ontologyMustHaveDCTitle (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
-    val titles = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/title>")
+    val dcTitle = ontology
+      .getAnnotationPropertiesInSignature
+      .toList
+      .find(a => a.getIRI.toString == "http://purl.org/dc/elements/1.1/title")
+    
+    val hasDCTitle = dcTitle match {
+      case Some(t) => true
+      case None => false    
+    }
 
-    if (titles.length == 0) {
-      return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/title")))
+    if (!hasDCTitle) {
+      return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/title")))
     }
     (true, List())
   }
 
   // ontology-must-have-dc-creator
   def ontologyMustHaveDCCreator (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val annotations = ontology.getAnnotationPropertiesInSignature.toArray.toList
-    val creators = annotations.filter(a => a.toString  ==  "<http://purl.org/dc/elements/1.1/creator>")
+    val dcCreator = ontology
+      .getAnnotationPropertiesInSignature
+      .toList
+      .find(a => a.getIRI.toString == "http://purl.org/dc/elements/1.1/creator")
+    
+    val hasDCCreator = dcCreator match {
+      case Some(t) => true
+      case None => false    
+    }
 
-    if (creators.length == 0) {
-      return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/creator")))
+    if (!hasDCCreator) {
+      return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
     }
     (true, List())
   }
 
   // ontology-must-have-only-one-dc-creator
   def ontologyMustHaveOneDCCreator  (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val annotations: List[OWLAnnotation] = ontology.getAnnotations.toList
-    val creators = annotations.filter(a => a.getProperty.getIRI.toString == "http://purl.org/dc/elements/1.1/creator")
+    val dcCreator: Option[OWLAnnotation] = ontology
+      .getAnnotations
+      .toList
+      .find(a => a.getProperty.getIRI.toString == "http://purl.org/dc/elements/1.1/creator")
+    
+    val hasDCCreator = dcCreator match {
+      case Some(t) => true
+      case None => false    
+    }
 
-    if (creators.length != 0) {
-      val creator = creators(0)
-      val creatorNames = creator.getValue
+    if (hasDCCreator) {
+      val creatorNames = dcCreator.get.getValue
 
       val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
 
@@ -120,7 +147,10 @@ class OwLint (config: Map[String, Boolean]) {
     return (true, List())
   } 
 
+  // entities-must-have-descriptions
 
+  //TOOD: problem with this linter ?? -->
+  // * This linter will require a description even for Entites not defined in this owl file (I probably dont want this)
   def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val classes: List[OWLEntity] = ontology.getClassesInSignature.toList
     val individuals: List[OWLEntity] = ontology.getIndividualsInSignature.toList

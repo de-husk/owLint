@@ -33,6 +33,9 @@ object owLintStarter {
       sys.exit(1)
     }
 
+    //TODO: Require the .owlint file to be valid.
+    // * no keys that are not in the Map in this file
+    // * no values other than true or false
     val owLintConfig: Map[String, Boolean] = getOwLintConfig(currentDirectory)
 
     // Process each *.owl file in currentDirectory
@@ -123,7 +126,8 @@ object owLintStarter {
         "ontology-must-have-version-info" -> true,
         "ontology-must-have-dc-title" -> true,
         "ontology-must-have-dc-creator" -> true,
-        "ontology-must-have-only-one-dc-creator" -> true
+        "ontology-must-have-only-one-dc-creator" -> true,
+        "entities-must-have-descriptions" -> true
       )
     }
   }
