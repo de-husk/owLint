@@ -122,34 +122,36 @@ class OwLint (config: Map[String, Boolean]) {
 
 
   def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    //TODO: change from classes to all entities
-    val classes = ontology.getClassesInSignature.iterator
-    var offendingLines: List[OffendingInstance] = List()
-    var passes = true
+    val classes: List[OWLEntity] = ontology.getClassesInSignature.toList
+    val individuals: List[OWLEntity] = ontology.getIndividualsInSignature.toList
 
-    while (classes.hasNext) {
-      val clazz = classes.next
+    //properties = objectProperties + annotationProperties + dataProperties
+    val objectProperties: List[OWLEntity] = ontology.getObjectPropertiesInSignature.toList
+    val annotationProperties: List[OWLEntity] = ontology.getAnnotationPropertiesInSignature.toList
+    val dataProperties: List[OWLEntity] = ontology.getDataPropertiesInSignature.toList
 
-      // Check if entity has description attribute
-      val annotations = clazz.getAnnotations(ontology).iterator
+    val properties: List[OWLEntity] =  objectProperties ++ annotationProperties ++ dataProperties
 
-      var hasSeenDescription = false
+    val entities: List[OWLEntity] = classes ++ individuals ++ properties
+   
+    var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
+    entities foreach { entity =>
+      val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdf:description")
 
-      while (annotations.hasNext) {
-        val a = annotations.next
-
-        if (a.getProperty.toString == "rdf:Description") {
-          hasSeenDescription = true
-        }
+      val hasDescription = descriptionAnnotation match {
+        case Some(d) => true
+        case None => false
       }
 
-      if (!hasSeenDescription) {
-        val tyype = clazz.getEntityType.getName
-        offendingLines = offendingLines :+ OffendingInstance(tyype, clazz.getIRI.toString)
-        passes = false
+      if (!hasDescription) {
+        offendingLines = offendingLines :+ OffendingInstance(entity.getEntityType.getName, entity.getIRI.toString)
       }
     }
-    (passes, offendingLines)
+
+    if (offendingLines.length != 0)
+      return (false, offendingLines)
+
+    (true, List())
   }
 
 }

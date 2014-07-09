@@ -23,6 +23,7 @@
     >en</protege:defaultLanguage>
   </owl:Ontology>
   <owl:Class rdf:ID="DeepPanBase">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:ID="ThinAndCrispyBase"/>
     </owl:disjointWith>
@@ -886,7 +887,6 @@
       <owl:Class rdf:about="#FishTopping"/>
     </rdfs:subClassOf>
     <rdfs:label xml:lang="pt">CoberturaDeAnchovies</rdfs:label>
-    <rdf:Description>Test</rdf:Description>
   </owl:Class>
   <owl:Class rdf:about="#Cajun">
     <owl:disjointWith>
