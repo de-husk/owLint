@@ -33,6 +33,7 @@
     <rdfs:label xml:lang="pt">BaseEspessa</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="VegetarianTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:comment xml:lang="en">An example of a covering axiom. VegetarianTopping is equivalent to the union of all toppings in the given axiom. VegetarianToppings can only be Cheese or Vegetable or....etc.</rdfs:comment>
     <owl:equivalentClass>
       <owl:Class>
@@ -54,6 +55,7 @@
     <rdfs:label xml:lang="pt">CoberturaVegetariana</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="CajunSpiceTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:ID="RosemaryTopping"/>
     </owl:disjointWith>
@@ -73,6 +75,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="CheeseyVegetableTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#VegetableTopping"/>
     </rdfs:subClassOf>
@@ -83,6 +86,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeQueijoComVegetais</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="PolloAdAstra">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:ID="Veneziana"/>
     </owl:disjointWith>
@@ -243,6 +247,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="Pizza">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#PizzaBase"/>
     </owl:disjointWith>
@@ -268,6 +273,7 @@
     <rdfs:label xml:lang="en">Pizza</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="HotGreenPepperTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDePimentaoVerdePicante</rdfs:label>
     <rdfs:subClassOf>
       <owl:Class rdf:ID="GreenPepperTopping"/>
@@ -284,6 +290,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#PrinceCarlo">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -422,6 +429,7 @@
     <owl:disjointWith rdf:resource="#PolloAdAstra"/>
   </owl:Class>
   <owl:Class rdf:ID="Country">
+    <rdf:description>Test</rdf:description>
     <rdfs:comment xml:lang="en">A class that is equivalent to the set of individuals that are described in the enumeration - ie Countries can only be either America, England, France, Germany or Italy and nothing else. Note that these individuals have been asserted to be allDifferent from each other.</rdfs:comment>
     <rdfs:label xml:lang="pt">Pais</rdfs:label>
     <owl:equivalentClass>
@@ -442,6 +450,7 @@
     </owl:equivalentClass>
   </owl:Class>
   <owl:Class rdf:about="#ThinAndCrispyBase">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#PizzaBase"/>
     </rdfs:subClassOf>
@@ -449,6 +458,7 @@
     <owl:disjointWith rdf:resource="#DeepPanBase"/>
   </owl:Class>
   <owl:Class rdf:about="#Capricciosa">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -607,6 +617,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="MushroomTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#TomatoTopping"/>
     </owl:disjointWith>
@@ -659,6 +670,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#ChickenTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:someValuesFrom>
@@ -684,6 +696,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeFrango</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#MeatTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#CheeseTopping"/>
     </owl:disjointWith>
@@ -711,6 +724,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="NonVegetarianPizza">
+    <rdf:description>Test</rdf:description>
     <owl:equivalentClass>
       <owl:Class>
         <owl:intersectionOf rdf:parseType="Collection">
@@ -730,6 +744,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="SlicedTomatoTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:ID="SundriedTomatoTopping"/>
     </owl:disjointWith>
@@ -749,6 +764,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeTomateFatiado</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#UnclosedPizza">
+    <rdf:description>Test</rdf:description>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >An unclosed Pizza cannot be inferred to be either a VegetarianPizza or a NonVegetarianPizza, because it might have other toppings.</rdfs:comment>
     <rdfs:subClassOf>
@@ -827,6 +843,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#OnionTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#VegetableTopping"/>
     </rdfs:subClassOf>
@@ -877,6 +894,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#AnchoviesTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:ID="PrawnsTopping"/>
     </owl:disjointWith>
@@ -889,6 +907,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeAnchovies</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Cajun">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#Napoletana"/>
     </owl:disjointWith>
@@ -1030,6 +1049,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="GoatsCheeseTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDeQueijoDeCabra	</rdfs:label>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#CheeseTopping"/>
@@ -1058,6 +1078,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#Parmense">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#Margherita"/>
     </owl:disjointWith>
@@ -1188,6 +1209,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#PeperoniSausageTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#ChickenTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#HotSpicedBeefTopping"/>
@@ -1209,6 +1231,7 @@
     <rdfs:subClassOf rdf:resource="#MeatTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#PeperonataTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaPeperonata</rdfs:label>
     <owl:disjointWith>
       <owl:Class rdf:ID="JalapenoPepperTopping"/>
@@ -1234,6 +1257,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#NutTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#HerbSpiceTopping"/>
     </owl:disjointWith>
@@ -1269,6 +1293,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#GreenPepperTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#PepperTopping"/>
     </rdfs:subClassOf>
@@ -1282,6 +1307,7 @@
     <rdfs:label xml:lang="pt">CoberturaDePimentaoVerde</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Rosa">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Capricciosa"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Soho"/>
@@ -1388,6 +1414,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="SpicyTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaTemperada</rdfs:label>
     <owl:equivalentClass>
       <owl:Class>
@@ -1407,6 +1434,7 @@
     <rdfs:comment xml:lang="en">Any pizza topping that has spiciness Hot</rdfs:comment>
   </owl:Class>
   <owl:Class rdf:about="#ParmesanTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#GoatsCheeseTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#GorgonzolaTopping"/>
@@ -1433,6 +1461,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeParmesao</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#FruttiDiMare">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:someValuesFrom>
@@ -1537,11 +1566,13 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#DomainConcept">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:ID="ValuePartition"/>
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#MixedSeafoodTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#AnchoviesTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#PrawnsTopping"/>
@@ -1552,6 +1583,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#Fiorentina">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#FourSeasons"/>
     </owl:disjointWith>
@@ -1685,6 +1717,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="Spiciness">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#ValuePartition"/>
     </rdfs:subClassOf>
@@ -1701,11 +1734,13 @@
     <rdfs:label xml:lang="pt">Tempero</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#NamedPizza">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf rdf:resource="#Pizza"/>
     <rdfs:comment xml:lang="en">A pizza that can be found on a pizza menu</rdfs:comment>
     <rdfs:label xml:lang="pt">PizzaComUmNome</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#SloppyGiuseppe">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -1822,6 +1857,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#PrawnsTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#MixedSeafoodTopping"/>
     <owl:disjointWith rdf:resource="#AnchoviesTopping"/>
     <rdfs:label xml:lang="pt">CoberturaDeCamarao</rdfs:label>
@@ -1830,6 +1866,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#FruitTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#SauceTopping"/>
     </owl:disjointWith>
@@ -1853,6 +1890,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="CheeseyPizza">
+    <rdf:description>Test</rdf:description>
     <rdfs:comment xml:lang="en">Any pizza that has at least 1 cheese topping.</rdfs:comment>
     <rdfs:label xml:lang="pt">PizzaComQueijo</rdfs:label>
     <owl:equivalentClass>
@@ -1872,6 +1910,7 @@
     </owl:equivalentClass>
   </owl:Class>
   <owl:Class rdf:about="#SweetPepperTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDePimentaoDoce</rdfs:label>
     <owl:disjointWith rdf:resource="#GreenPepperTopping"/>
     <owl:disjointWith>
@@ -1893,6 +1932,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#AsparagusTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#PepperTopping"/>
     </owl:disjointWith>
@@ -1941,6 +1981,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#QuattroFormaggi">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#American"/>
     </owl:disjointWith>
@@ -2026,6 +2067,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:ID="VegetarianPizzaEquivalent2">
+    <rdf:description>Test</rdf:description>
     <rdfs:comment xml:lang="en">An alternative to VegetarianPizzaEquiv1 that does not require a definition of VegetarianTopping. Perhaps more difficult to maintain. Not equivalent to VegetarianPizza </rdfs:comment>
     <owl:equivalentClass>
       <owl:Class>
@@ -2054,10 +2096,12 @@
     <rdfs:label xml:lang="pt">PizzaVegetarianaEquivalente2</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="PineKernels">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaPineKernels</rdfs:label>
     <rdfs:subClassOf rdf:resource="#NutTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#CheeseTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#VegetableTopping"/>
     </owl:disjointWith>
@@ -2079,6 +2123,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="VegetarianPizzaEquivalent1">
+    <rdf:description>Test</rdf:description>
     <owl:equivalentClass>
       <owl:Class>
         <owl:intersectionOf rdf:parseType="Collection">
@@ -2096,6 +2141,7 @@
     <rdfs:label xml:lang="pt">PizzaVegetarianaEquivalente1</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#LeekTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#OliveTopping"/>
     </owl:disjointWith>
@@ -2142,6 +2188,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#PizzaBase">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#PizzaTopping"/>
     </owl:disjointWith>
@@ -2153,6 +2200,7 @@
     <rdfs:label xml:lang="pt">BaseDaPizza</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Giardiniera">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -2294,6 +2342,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#FishTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -2323,6 +2372,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#JalapenoPepperTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#PepperTopping"/>
     </rdfs:subClassOf>
@@ -2342,6 +2392,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeJalapeno</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#VegetarianPizza">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">PizzaVegetariana</rdfs:label>
     <owl:equivalentClass>
       <owl:Class>
@@ -2374,6 +2425,7 @@
     <owl:disjointWith rdf:resource="#NonVegetarianPizza"/>
   </owl:Class>
   <owl:Class rdf:about="#TomatoTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#RocketTopping"/>
     </owl:disjointWith>
@@ -2418,6 +2470,7 @@
     <owl:disjointWith rdf:resource="#LeekTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#TobascoPepperSauce">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:someValuesFrom>
@@ -2434,6 +2487,7 @@
     <rdfs:label xml:lang="pt">MolhoTobascoPepper</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Hot">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">Picante</rdfs:label>
     <owl:disjointWith>
       <owl:Class rdf:about="#Medium"/>
@@ -2444,6 +2498,7 @@
     <rdfs:subClassOf rdf:resource="#Spiciness"/>
   </owl:Class>
   <owl:Class rdf:about="#AmericanHot">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#Soho"/>
     </owl:disjointWith>
@@ -2540,6 +2595,7 @@
       <owl:Class rdf:about="#Siciliana"/>
     </owl:disjointWith>
     <owl:disjointWith rdf:resource="#Rosa"/>
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -2550,6 +2606,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#ArtichokeTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#PepperTopping"/>
     </owl:disjointWith>
@@ -2592,6 +2649,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#FourCheesesTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#GorgonzolaTopping"/>
     </owl:disjointWith>
@@ -2614,6 +2672,7 @@
     <rdfs:subClassOf rdf:resource="#CheeseTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#SundriedTomatoTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDeTomateRessecadoAoSol</rdfs:label>
     <owl:disjointWith rdf:resource="#SlicedTomatoTopping"/>
     <rdfs:subClassOf>
@@ -2629,12 +2688,14 @@
     <rdfs:subClassOf rdf:resource="#TomatoTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#ValuePartition">
+    <rdf:description>Test</rdf:description>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >A ValuePartition is a pattern that describes a restricted set of classes from which a property can be associated. The parent class is used in restrictions, and the covering axiom means that only members of the subclasses may be used as values. The possible subclasses cannot be extended without updating the ValuePartition class.</rdfs:comment>
     <rdfs:label xml:lang="pt">ValorDaParticao</rdfs:label>
     <owl:disjointWith rdf:resource="#DomainConcept"/>
   </owl:Class>
   <owl:Class rdf:about="#PizzaTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDaPizza</rdfs:label>
     <rdfs:subClassOf rdf:resource="#DomainConcept"/>
     <owl:disjointWith rdf:resource="#PizzaBase"/>
@@ -2644,6 +2705,7 @@
     <owl:disjointWith rdf:resource="#Pizza"/>
   </owl:Class>
   <owl:Class rdf:about="#FourSeasons">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#Mushroom"/>
     </owl:disjointWith>
@@ -2770,6 +2832,7 @@
     </owl:disjointWith>
   </owl:Class>
   <owl:Class rdf:about="#Napoletana">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf rdf:resource="#NamedPizza"/>
     <owl:disjointWith rdf:resource="#Cajun"/>
     <rdfs:subClassOf>
@@ -2876,6 +2939,7 @@
     <owl:disjointWith rdf:resource="#PrinceCarlo"/>
   </owl:Class>
   <owl:Class rdf:about="#HamTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#ChickenTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#HotSpicedBeefTopping"/>
@@ -2885,6 +2949,7 @@
     <rdfs:label xml:lang="pt">CoberturaDePresunto</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#LaReine">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#Veneziana"/>
     </owl:disjointWith>
@@ -2987,6 +3052,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#VegetableTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf rdf:resource="#PizzaTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#HerbSpiceTopping"/>
@@ -3002,6 +3068,7 @@
     <owl:disjointWith rdf:resource="#CheeseTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#Caprina">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#Veneziana"/>
     </owl:disjointWith>
@@ -3091,6 +3158,7 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#PepperTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#GarlicTopping"/>
     </owl:disjointWith>
@@ -3119,6 +3187,7 @@
     <owl:disjointWith rdf:resource="#AsparagusTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#Siciliana">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Parmense"/>
     <rdfs:subClassOf>
       <owl:Restriction>
@@ -3237,6 +3306,7 @@
     <rdfs:label xml:lang="pt">Siciliana</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="InterestingPizza">
+    <rdf:description>Test</rdf:description>
     <owl:equivalentClass>
       <owl:Class>
         <owl:intersectionOf rdf:parseType="Collection">
@@ -3255,6 +3325,7 @@
     <rdfs:label xml:lang="pt">PizzaInteressante</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Soho">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Parmense"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#American"/>
@@ -3364,6 +3435,7 @@
     <owl:disjointWith rdf:resource="#Capricciosa"/>
   </owl:Class>
   <owl:Class rdf:about="#Mild">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Hot"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#Medium"/>
@@ -3372,6 +3444,7 @@
     <rdfs:label xml:lang="pt">NaoPicante</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="RealItalianPizza">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -3397,6 +3470,7 @@
     <rdfs:label xml:lang="pt">PizzaItalianaReal</rdfs:label>
   </owl:Class>
   <owl:Class rdf:ID="SpicyPizza">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">PizzaTemperada</rdfs:label>
     <rdfs:comment xml:lang="en">Any pizza that has a spicy topping is a SpicyPizza</rdfs:comment>
     <owl:equivalentClass>
@@ -3414,6 +3488,7 @@
     </owl:equivalentClass>
   </owl:Class>
   <owl:Class rdf:about="#MozzarellaTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDeMozzarella</rdfs:label>
     <rdfs:subClassOf>
       <owl:Restriction>
@@ -3438,6 +3513,7 @@
     <owl:disjointWith rdf:resource="#ParmesanTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#HotSpicedBeefTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDeBifePicante</rdfs:label>
     <owl:disjointWith rdf:resource="#HamTopping"/>
     <owl:disjointWith rdf:resource="#PeperoniSausageTopping"/>
@@ -3453,6 +3529,7 @@
     <rdfs:subClassOf rdf:resource="#MeatTopping"/>
   </owl:Class>
   <owl:Class rdf:ID="SultanaTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaSultana</rdfs:label>
     <rdfs:subClassOf>
       <owl:Restriction>
@@ -3467,6 +3544,7 @@
     <rdfs:subClassOf rdf:resource="#FruitTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#RosemaryTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#CajunSpiceTopping"/>
     <rdfs:label xml:lang="pt">CoberturaRosemary</rdfs:label>
     <rdfs:subClassOf>
@@ -3482,10 +3560,12 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#RedOnionTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:label xml:lang="pt">CoberturaDeCebolaVermelha</rdfs:label>
     <rdfs:subClassOf rdf:resource="#OnionTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#HerbSpiceTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf rdf:resource="#PizzaTopping"/>
     <owl:disjointWith rdf:resource="#FishTopping"/>
     <rdfs:label xml:lang="pt">CoberturaDeErvas</rdfs:label>
@@ -3499,6 +3579,7 @@
     <owl:disjointWith rdf:resource="#FruitTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#PetitPoisTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#ArtichokeTopping"/>
     <rdfs:label xml:lang="pt">CoberturaPetitPois</rdfs:label>
     <owl:disjointWith rdf:resource="#AsparagusTopping"/>
@@ -3533,6 +3614,7 @@
     <owl:disjointWith rdf:resource="#LeekTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#GorgonzolaTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#ParmesanTopping"/>
     <owl:disjointWith rdf:resource="#FourCheesesTopping"/>
     <owl:disjointWith rdf:resource="#MozzarellaTopping"/>
@@ -3549,6 +3631,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeGorgonzola</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#SpinachTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#OnionTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#GarlicTopping"/>
@@ -3581,6 +3664,7 @@
     <owl:disjointWith rdf:resource="#LeekTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#GarlicTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith>
       <owl:Class rdf:about="#RocketTopping"/>
     </owl:disjointWith>
@@ -3613,6 +3697,7 @@
     <rdfs:label xml:lang="pt">CoberturaDeAlho</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#SauceTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf rdf:resource="#PizzaTopping"/>
     <owl:disjointWith rdf:resource="#CheeseTopping"/>
     <rdfs:label xml:lang="pt">CoberturaEmMolho</rdfs:label>
@@ -3624,6 +3709,7 @@
     <owl:disjointWith rdf:resource="#VegetableTopping"/>
   </owl:Class>
   <owl:Class rdf:ID="MeatyPizza">
+    <rdf:description>Test</rdf:description>
     <owl:equivalentClass>
       <owl:Class>
         <owl:intersectionOf rdf:parseType="Collection">
@@ -3641,6 +3727,7 @@
     <rdfs:comment xml:lang="en">Any pizza that has at least one meat topping</rdfs:comment>
   </owl:Class>
   <owl:Class rdf:about="#Margherita">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Capricciosa"/>
     <rdfs:subClassOf>
       <owl:Restriction>
@@ -3704,6 +3791,7 @@
     <owl:disjointWith rdf:resource="#PolloAdAstra"/>
   </owl:Class>
   <owl:Class rdf:about="#Veneziana">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
@@ -3814,6 +3902,7 @@
     <owl:disjointWith rdf:resource="#Giardiniera"/>
   </owl:Class>
   <owl:Class rdf:about="#OliveTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#PetitPoisTopping"/>
     <owl:disjointWith>
       <owl:Class rdf:about="#RocketTopping"/>
@@ -3842,6 +3931,7 @@
     <owl:disjointWith rdf:resource="#LeekTopping"/>
   </owl:Class>
   <owl:Class rdf:ID="ParmaHamTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:someValuesFrom rdf:resource="#Mild"/>
@@ -3854,6 +3944,7 @@
     <rdfs:label xml:lang="pt">CoberturaDePrezuntoParma</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#Mushroom">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:someValuesFrom rdf:resource="#TomatoTopping"/>
@@ -3922,6 +4013,7 @@
     <owl:disjointWith rdf:resource="#FourSeasons"/>
   </owl:Class>
   <owl:Class rdf:ID="SpicyPizzaEquivalent">
+    <rdf:description>Test</rdf:description>
     <owl:equivalentClass>
       <owl:Class>
         <owl:intersectionOf rdf:parseType="Collection">
@@ -3951,6 +4043,7 @@
     <rdfs:label xml:lang="pt">PizzaTemperadaEquivalente</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="#American">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Caprina"/>
     <owl:disjointWith rdf:resource="#LaReine"/>
     <owl:disjointWith rdf:resource="#AmericanHot"/>
@@ -4017,6 +4110,7 @@
     <owl:disjointWith rdf:resource="#Napoletana"/>
   </owl:Class>
   <owl:Class rdf:about="#CaperTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#ArtichokeTopping"/>
     <owl:disjointWith rdf:resource="#PepperTopping"/>
     <rdfs:subClassOf>
@@ -4043,6 +4137,7 @@
     <owl:disjointWith rdf:resource="#GarlicTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#IceCream">
+    <rdf:description>Test</rdf:description>
     <rdfs:subClassOf rdf:resource="#DomainConcept"/>
     <rdfs:subClassOf>
       <owl:Restriction>
@@ -4059,12 +4154,14 @@
     <owl:disjointWith rdf:resource="#PizzaTopping"/>
   </owl:Class>
   <owl:Class rdf:about="#Medium">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#Hot"/>
     <owl:disjointWith rdf:resource="#Mild"/>
     <rdfs:label xml:lang="pt">Media</rdfs:label>
     <rdfs:subClassOf rdf:resource="#Spiciness"/>
   </owl:Class>
   <owl:Class rdf:about="#RocketTopping">
+    <rdf:description>Test</rdf:description>
     <owl:disjointWith rdf:resource="#PetitPoisTopping"/>
     <owl:disjointWith rdf:resource="#CaperTopping"/>
     <owl:disjointWith rdf:resource="#ArtichokeTopping"/>
@@ -4099,6 +4196,7 @@
     <rdfs:range rdf:resource="#Pizza"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#hasTopping">
+    <rdf:description>Test</rdf:description>
     <rdfs:domain rdf:resource="#Pizza"/>
     <owl:inverseOf rdf:resource="#isToppingOf"/>
     <rdfs:subPropertyOf>
@@ -4114,6 +4212,7 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#isIngredientOf">
+    <rdf:description>Test</rdf:description>
     <owl:inverseOf rdf:resource="#hasIngredient"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
     <rdfs:comment xml:lang="en">The inverse property tree to hasIngredient - all subproperties and attributes of the properties should reflect those under hasIngredient.</rdfs:comment>
@@ -4124,6 +4223,7 @@
     <rdfs:range rdf:resource="#Spiciness"/>
   </owl:FunctionalProperty>
   <owl:FunctionalProperty rdf:ID="isBaseOf">
+    <rdf:description>Test</rdf:description>
     <rdfs:subPropertyOf rdf:resource="#isIngredientOf"/>
     <rdfs:domain rdf:resource="#PizzaBase"/>
     <owl:inverseOf>
@@ -4134,6 +4234,7 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </owl:FunctionalProperty>
   <owl:FunctionalProperty rdf:about="#hasBase">
+    <rdf:description>Test</rdf:description>
     <rdfs:domain rdf:resource="#Pizza"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
