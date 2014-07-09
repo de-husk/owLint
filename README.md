@@ -46,7 +46,7 @@ To add your linter function and the function and full text description to the li
 
 The linter function you add must be in the following format:
 
-def superCoolLinterTest (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {/**/}
+```def superCoolLinterTest (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {/**/}```
 
 
 Screenshots
