@@ -142,15 +142,12 @@ class OwLint (config: Map[String, Boolean]) {
       }
 
       if (matches)
-        return (false, List(OffendingInstance("ANNOTATION_PROPERTY", "http://purl.org/dc/elements/1.1/creator")))
+        return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
     }
     return (true, List())
   } 
 
   // entities-must-have-descriptions
-
-  //TOOD: problem with this linter ?? -->
-  // * This linter will require a description even for Entites not defined in this owl file (I probably dont want this)
   def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val classes: List[OWLEntity] = ontology.getClassesInSignature.toList
     val individuals: List[OWLEntity] = ontology.getIndividualsInSignature.toList
@@ -165,16 +162,20 @@ class OwLint (config: Map[String, Boolean]) {
     val entities: List[OWLEntity] = classes ++ individuals ++ properties
    
     var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
+    
     entities foreach { entity =>
-      val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdf:description")
+      if (entity.toString.contains(ontology.getOntologyID.getOntologyIRI.toString)) {
+        // if current entity is defined in the current ontology
+        val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdf:description")
 
-      val hasDescription = descriptionAnnotation match {
-        case Some(d) => true
-        case None => false
-      }
+        val hasDescription = descriptionAnnotation match {
+          case Some(d) => true
+          case None => false
+        }
 
-      if (!hasDescription) {
-        offendingLines = offendingLines :+ OffendingInstance(entity.getEntityType.getName, entity.getIRI.toString)
+        if (!hasDescription) {
+          offendingLines = offendingLines :+ OffendingInstance(entity.getEntityType.getName, entity.getIRI.toString)
+        }
       }
     }
 
