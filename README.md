@@ -1,7 +1,6 @@
 owLint
 ------
 
-
 owLint is a configurable, command line OWL file linter. It utilizes the [OWL API](https://github.com/owlcs/owlapi).
 
 Usage
