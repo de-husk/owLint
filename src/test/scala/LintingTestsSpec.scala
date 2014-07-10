@@ -12,7 +12,7 @@ class LintingTestsSpec extends FlatSpec with Matchers{
   val passingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza.owl"))
   val failingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-fails.owl"))
   val creatorFailingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-more-than-one-creator-fails.owl"))
-  val owLintRunner = new OwLint(owLintStarter.getOwLintConfig("fakepath"))
+  val owLintRunner = new OwLint(OwLintStarter.getOwLintConfig("fakepath"))
 
   "ontology-must-have-version-info" should "return true on proper test owl file" in {
     val result = owLintRunner.ontologyMustHaveVersionInfo(passingOntology)
