@@ -9,7 +9,7 @@ Usage
 
 owLint will look in the defined directory for a .owlint configuration file and .owl files to lint.
 
-an example .owlint file is seen below
+An example .owlint file is seen below
 
 ```
 {
@@ -20,7 +20,7 @@ an example .owlint file is seen below
   "entities-must-have-descriptions" : true
 }
 ```
-This will enable the "entities-must-have-descriptions" test. By default all of the tests are enabled.
+A .owlint file is optional. By default all of the tests are enabled.
 
 
 List of Options
