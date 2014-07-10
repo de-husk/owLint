@@ -28,6 +28,8 @@ List of Options
 ##Ontology
 
 ###ontology-must-have-version-info
+Each owl:Ontology must have an [owl:versionInfo](http://www.w3.org/TR/owl-ref/#versionInfo-def) annotation property.
+
 ###ontology-must-have-dc-title
 ###ontology-must-have-dc-creator
 ###ontology-must-have-only-one-dc-creator
