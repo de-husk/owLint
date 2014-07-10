@@ -25,10 +25,13 @@ This will enable the "entities-must-have-descriptions" test. By default all of t
 
 List of Options
 =====================
+##Ontology
   * ontology-must-have-version-info
   * ontology-must-have-dc-title
   * ontology-must-have-dc-creator
   * ontology-must-have-only-one-dc-creator
+
+##Entities
   * entities-must-have-descriptions
   
 
