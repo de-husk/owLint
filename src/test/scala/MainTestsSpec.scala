@@ -38,4 +38,20 @@ class MainTestsSpec extends FlatSpec with Matchers {
     val isValidDirectoryPath = OwLintStarter.isValidDirectoryPath(invalidPath)
     assert(isValidDirectoryPath == false)
   }
+
+  "isOWLintConfigValid" should "return true with valid config file" in {
+    val validConfig: Map[String, Boolean] = Map (
+      "ontology-must-have-version-info" -> true, 
+      "ontology-must-have-dc-title" -> false
+    )
+    assert(OwLintStarter.isOwLintConfigValid(validConfig))
+  }
+
+  it should "return false with invalid config file (containing invalid option keys)" in {
+    val validConfig: Map[String, Boolean] = Map (
+      "totally-not-a-right-option" -> true, 
+      "ontology-must-have-dc-title" -> false
+    )
+    assert(!OwLintStarter.isOwLintConfigValid(validConfig))
+  }
 }

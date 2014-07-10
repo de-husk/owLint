@@ -32,9 +32,6 @@ object OwLintStarter {
       sys.exit(1)
     }
 
-    //TODO: Require the .owlint file to be valid.
-    // * no keys that are not in the Map in this file
-    // * no values other than true or false
     val owLintConfig: Map[String, Boolean] = getOwLintConfig(currentDirectory)
 
     // Process each *.owl file in currentDirectory
@@ -119,16 +116,42 @@ object OwLintStarter {
     if (Files.exists(Paths.get(configPath))) {
       val localConfigFile = Source.fromFile(configPath).mkString
       val confJson = localConfigFile.parseJson
-      confJson.convertTo[Map[String, Boolean]]
+      val config = confJson.convertTo[Map[String, Boolean]]
+    
+      if (isOwLintConfigValid(config)) {
+        return config
+      } else {
+        Console.err.println(Console.RED + "Error: .owlint file contains invalid options! Please check for errors!" + Console.RESET)
+        sys.exit(1)
+      }      
     } else {
-      Map (
-        "ontology-must-have-version-info" -> true,
-        "ontology-must-have-dc-title" -> true,
-        "ontology-must-have-dc-creator" -> true,
-        "ontology-must-have-only-one-dc-creator" -> true,
-        "entities-must-have-descriptions" -> true
-      )
+      return getDefaultConfig
     }
+  }
+
+  def isOwLintConfigValid (config: Map[String, Boolean]): Boolean = {
+    val defaultConf = getDefaultConfig
+
+    config.keys foreach { key =>
+      val keyFound = defaultConf.keys.find(k => k == key) match {
+        case Some(k) => true
+        case  None => false
+      }
+
+      if (!keyFound)
+        return false
+    }
+    true
+  }
+
+  def getDefaultConfig: Map[String, Boolean] = {
+    Map (
+      "ontology-must-have-version-info" -> true,
+      "ontology-must-have-dc-title" -> true,
+      "ontology-must-have-dc-creator" -> true,
+      "ontology-must-have-only-one-dc-creator" -> true,
+      "entities-must-have-descriptions" -> true
+    )
   }
 
   def getOwlFilesInCurrDirectory (currentDirectory: String): Array[File] = {
