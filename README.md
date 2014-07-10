@@ -26,13 +26,16 @@ This will enable the "entities-must-have-descriptions" test. By default all of t
 List of Options
 =====================
 ##Ontology
-  * ontology-must-have-version-info
-  * ontology-must-have-dc-title
-  * ontology-must-have-dc-creator
-  * ontology-must-have-only-one-dc-creator
+
+###ontology-must-have-version-info
+###ontology-must-have-dc-title
+###ontology-must-have-dc-creator
+###ontology-must-have-only-one-dc-creator
 
 ##Entities
-  * entities-must-have-descriptions
+
+###entities-must-have-descriptions
+All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace but have rdf:descriptions annotations.
   
 
 Development
