@@ -52,7 +52,7 @@ sbt "run -help"
 sbt test
 
 ###Adding additional linter options
-To add your linter function and the function and full text description to the lintTestMappings Map.
+To add your linter function add the function and full text description to the lintTestMappings Map.
 
 The linter function you add must be in the following format:
 
