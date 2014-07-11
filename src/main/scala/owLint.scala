@@ -30,7 +30,6 @@ class OwLint (config: Map[String, Boolean]) {
   }
 
   def sortErrorsAlphabetically (errors: List[OffendingInstance]): List[OffendingInstance] = {
-    //Sort the errors by type, and content strings
     errors.sortBy(error => (error.tyype, error.content))
   }
 
@@ -69,32 +68,6 @@ class OwLint (config: Map[String, Boolean]) {
 
 
   // linting tests live below:
-  //TODO: DRY up this code
- def OWLEntityHasAnnotation(entity: OWLEntity, ontology:OWLOntology, iri: String): Boolean = {
-    val annotation = entity
-      .getAnnotations(ontology)
-      .toList
-      .find(a => a.getProperty.toString == iri.toString)
-
-    annotation match {
-      case Some(a) => true
-      case None => false
-    }
-  }
-
- def OWLOntologyHasAnnotation(ontology:OWLOntology, iri: String): Boolean = {
-    val annotation = ontology
-      .getAnnotationPropertiesInSignature
-      .toList
-      .find(a => a.getIRI.toString == iri.toString)
-
-    annotation match {
-      case Some(a) => true
-      case None => false
-    }
-  }
-
-
 
   // ontology-must-have-version-info test
   def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
@@ -118,7 +91,7 @@ class OwLint (config: Map[String, Boolean]) {
 
   // ontology-must-have-dc-creator
   def ontologyMustHaveDCCreator (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val hasDCCreator = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/creatorg")
+    val hasDCCreator = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/creator")
 
     if (!hasDCCreator) {
       return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
@@ -147,20 +120,6 @@ class OwLint (config: Map[String, Boolean]) {
     return (true, List())
   } 
 
-  def hasUnwantedDelimiters (test: String): Boolean = {
-    val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
-
-    val matches = invalidCreatorReg.findFirstMatchIn(test) match {
-      case Some(m) => true
-      case None => false
-    }
-
-    if (matches)
-      return true
-
-    false
-  }
-
   //ontology-must-have-only-one-dc-contributor
   def ontologyMustHaveOneDCContributor (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val dcContributor: Option[OWLAnnotation] = ontology
@@ -184,16 +143,7 @@ class OwLint (config: Map[String, Boolean]) {
 
   //ontology-must-have-dc-date
   def ontologyMustHaveDCDate (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val dcDate = ontology
-      .getAnnotationPropertiesInSignature
-      .toList
-      .find(a => a.getIRI.toString == "http://purl.org/dc/elements/1.1/date")
-
-    val hasDcDate = dcDate match {
-      case Some(t) => true
-      case None => false
-    }
-
+    val hasDcDate = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/date")
     if (!hasDcDate) {
       return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/date")))
     }
@@ -239,6 +189,44 @@ class OwLint (config: Map[String, Boolean]) {
     (true, List())
   }
 
+  //Linter helper functions
+ def OWLEntityHasAnnotation(entity: OWLEntity, ontology:OWLOntology, iri: String): Boolean = {
+    val annotation = entity
+      .getAnnotations(ontology)
+      .toList
+      .find(a => a.getProperty.toString == iri.toString)
+
+    annotation match {
+      case Some(a) => true
+      case None => false
+    }
+  }
+
+ def OWLOntologyHasAnnotation(ontology:OWLOntology, iri: String): Boolean = {
+    val annotation = ontology
+      .getAnnotationPropertiesInSignature
+      .toList
+      .find(a => a.getIRI.toString == iri.toString)
+
+    annotation match {
+      case Some(a) => true
+      case None => false
+    }
+  }
+
+  def hasUnwantedDelimiters (test: String): Boolean = {
+    val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
+
+    val matches = invalidCreatorReg.findFirstMatchIn(test) match {
+      case Some(m) => true
+      case None => false
+    }
+
+    if (matches)
+      return true
+
+    false
+  }
 }
 
 
