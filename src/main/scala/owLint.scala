@@ -70,18 +70,35 @@ class OwLint (config: Map[String, Boolean]) {
 
   // linting tests live below:
   //TODO: DRY up this code
+ def OWLEntityHasAnnotation(entity: OWLEntity, ontology:OWLOntology, iri: String): Boolean = {
+    val annotation = entity
+      .getAnnotations(ontology)
+      .toList
+      .find(a => a.getProperty.toString == iri.toString)
+
+    annotation match {
+      case Some(a) => true
+      case None => false
+    }
+  }
+
+ def OWLOntologyHasAnnotation(ontology:OWLOntology, iri: String): Boolean = {
+    val annotation = ontology
+      .getAnnotationPropertiesInSignature
+      .toList
+      .find(a => a.getIRI.toString == iri.toString)
+
+    annotation match {
+      case Some(a) => true
+      case None => false
+    }
+  }
+
+
 
   // ontology-must-have-version-info test
   def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val versionInfo = ontology
-      .getAnnotationPropertiesInSignature
-      .toList
-      .find(a => a.getIRI.toString == "http://www.w3.org/2002/07/owl#versionInfo")
-    
-    val hasVersionInfo = versionInfo match {
-      case Some(v) => true
-      case None => false    
-    }
+    val hasVersionInfo = OWLOntologyHasAnnotation(ontology, "http://www.w3.org/2002/07/owl#versionInfo")
 
     if (!hasVersionInfo) {
       return (false, List(OffendingInstance("AnnotationProperty", "http://www.w3.org/2002/07/owl#versionInfo")))
@@ -91,15 +108,7 @@ class OwLint (config: Map[String, Boolean]) {
 
   // ontology-must-have-dc-title
   def ontologyMustHaveDCTitle (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val dcTitle = ontology
-      .getAnnotationPropertiesInSignature
-      .toList
-      .find(a => a.getIRI.toString == "http://purl.org/dc/elements/1.1/title")
-    
-    val hasDCTitle = dcTitle match {
-      case Some(t) => true
-      case None => false    
-    }
+    val hasDCTitle = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/title")
 
     if (!hasDCTitle) {
       return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/title")))
@@ -109,15 +118,7 @@ class OwLint (config: Map[String, Boolean]) {
 
   // ontology-must-have-dc-creator
   def ontologyMustHaveDCCreator (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val dcCreator = ontology
-      .getAnnotationPropertiesInSignature
-      .toList
-      .find(a => a.getIRI.toString == "http://purl.org/dc/elements/1.1/creator")
-    
-    val hasDCCreator = dcCreator match {
-      case Some(t) => true
-      case None => false    
-    }
+    val hasDCCreator = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/creatorg")
 
     if (!hasDCCreator) {
       return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
