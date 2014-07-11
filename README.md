@@ -16,7 +16,7 @@ An example .owlint file is seen below
   "ontology-must-have-dc-title" : true,
   "ontology-must-have-dc-creator" : false,
   "ontology-must-have-only-one-dc-creator" : false,
-  "entities-must-have-descriptions" : true
+  "entities-must-have-rdfs-comment" : true
 }
 ```
 A .owlint file is optional. By default all of the tests are enabled.
@@ -35,8 +35,8 @@ Each owl:Ontology must have an [owl:versionInfo](http://www.w3.org/TR/owl-ref/#v
 
 ##Entities
 
-###entities-must-have-descriptions
-All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace but have rdf:descriptions annotations.
+###entities-must-have-rdfs-comment
+All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace must have rdfs:comment annotations.
   
 
 Development
