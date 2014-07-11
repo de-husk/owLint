@@ -30,7 +30,7 @@ class OwLint (config: Map[String, Boolean]) {
 
   val lintTestMappings: Map [String, LintFunctionDef] = 
     Map (
-      "entities-must-have-descriptions" -> LintFunctionDef(entitiesMustHaveDescriptions, "All entities must have description attributes."),
+      "entities-must-have-rdfs-comment" -> LintFunctionDef(entitiesMustHaveRDFSComment, "All entities must have rdfs:comment attribute."),
       "ontology-must-have-version-info" -> LintFunctionDef(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation."),
       "ontology-must-have-dc-title" -> LintFunctionDef(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
       "ontology-must-have-dc-creator" -> LintFunctionDef(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
@@ -147,8 +147,8 @@ class OwLint (config: Map[String, Boolean]) {
     return (true, List())
   } 
 
-  // entities-must-have-descriptions
-  def entitiesMustHaveDescriptions (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  // entities-must-have-rdfs-comment
+  def entitiesMustHaveRDFSComment (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val classes: List[OWLEntity] = ontology.getClassesInSignature.toList
     val individuals: List[OWLEntity] = ontology.getIndividualsInSignature.toList
 
@@ -166,7 +166,7 @@ class OwLint (config: Map[String, Boolean]) {
     entities foreach { entity =>
       if (entity.toString.contains(ontology.getOntologyID.getOntologyIRI.toString)) {
         // if current entity is defined in the current ontology
-        val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdf:description")
+        val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdfs:comment")
 
         val hasDescription = descriptionAnnotation match {
           case Some(d) => true
