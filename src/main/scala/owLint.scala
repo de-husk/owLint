@@ -140,20 +140,27 @@ class OwLint (config: Map[String, Boolean]) {
     }
 
     if (hasDCCreator) {
-      val creatorNames = dcCreator.get.getValue
+      val hasMoreThanOneCreator = hasUnwantedDelimiters(dcCreator.get.getValue.toString)
 
-      val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
-
-      val matches = invalidCreatorReg.findFirstMatchIn(creatorNames.toString) match {
-        case Some(m) => true
-        case None => false
-      }
-
-      if (matches)
+      if (hasMoreThanOneCreator)
         return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
     }
     return (true, List())
   } 
+
+  def hasUnwantedDelimiters (test: String): Boolean = {
+    val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
+
+    val matches = invalidCreatorReg.findFirstMatchIn(test) match {
+      case Some(m) => true
+      case None => false
+    }
+
+    if (matches)
+      return true
+
+    false
+  }
 
   //ontology-must-have-only-one-dc-contributor
   def ontologyMustHaveOneDCContributor (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
@@ -168,19 +175,10 @@ class OwLint (config: Map[String, Boolean]) {
     }
 
     if (hasDCContributor) {
-      //TODO: DRY BELOW
-      val contributorNames = dcContributor.get.getValue
+      val hasMoreThanOneContributor = hasUnwantedDelimiters(dcContributor.get.getValue.toString)
 
-      val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
-
-      val matches = invalidCreatorReg.findFirstMatchIn(contributorNames.toString) match {
-        case Some(m) => true
-        case None => false
-      }
-
-      if (matches)
+      if (hasMoreThanOneContributor)
         return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/contributor")))
-
     }
     (true, List())
   }
