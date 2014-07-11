@@ -18,6 +18,7 @@
     <dc:title>The Pizza Ontology</dc:title>    
     <dc:creator>Chef Hungry
 Chef More Hungry</dc:creator>    
+<dc:contributor>Chef Starving and Chef Hungry III</dc:contributor>
     <rdfs:comment xml:lang="en">An example ontology that contains all constructs required for the various versions of the Pizza Tutorial run by Manchester University (see http://www.co-ode.org/resources/tutorials/)</rdfs:comment>
     <owl:imports rdf:resource="http://protege.stanford.edu/plugins/owl/protege"/>
     <protege:defaultLanguage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

@@ -49,4 +49,16 @@ class LintingTestsSpec extends FlatSpec with Matchers{
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
+
+  "ontology-must-have-only-one-dc-contributor" should "return true on valid test owl file" in {
+    val result = owLintRunner.ontologyMustHaveOneDCContributor(passingOntology)
+    assert(result._1 == true)
+    assert(result._2.length == 0)
+  }
+
+  it should "return false on mutlple dc contributor failing test owl file" in {
+    val result = owLintRunner.ontologyMustHaveOneDCContributor(creatorFailingOntology)
+    assert(result._1 == false)
+    assert(result._2.length != 0)
+  }
 }

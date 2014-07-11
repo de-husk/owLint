@@ -1,7 +1,8 @@
 {
-  "ontology-must-have-version-info" : false,
-  "ontology-must-have-dc-title" : false,
-  "ontology-must-have-dc-creator" : false,
-  "ontology-must-have-only-one-dc-creator" : false,
+  "ontology-must-have-version-info" : true,
+  "ontology-must-have-dc-title" : true,
+  "ontology-must-have-dc-creator" : true,
+  "ontology-must-have-only-one-dc-creator" : true,
+  "ontology-must-have-only-one-dc-contributor": true,
   "entities-must-have-rdfs-comment" : true
 }

@@ -41,7 +41,8 @@ class OwLint (config: Map[String, Boolean]) {
       "ontology-must-have-version-info" -> LintFunctionDef(ontologyMustHaveVersionInfo, "The ontology must have a version info annotation."),
       "ontology-must-have-dc-title" -> LintFunctionDef(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
       "ontology-must-have-dc-creator" -> LintFunctionDef(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
-      "ontology-must-have-only-one-dc-creator" -> LintFunctionDef(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator attribute.")
+      "ontology-must-have-only-one-dc-creator" -> LintFunctionDef(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator annotation."),
+      "ontology-must-have-only-one-dc-contributor" -> LintFunctionDef(ontologyMustHaveOneDCContributor, "The ontology cannot have more than one DC contributor in each dc:contributor annotation")
     )
 
   case class LintResult (
@@ -153,6 +154,39 @@ class OwLint (config: Map[String, Boolean]) {
     }
     return (true, List())
   } 
+
+  //ontology-must-have-only-one-dc-contributor
+  def ontologyMustHaveOneDCContributor (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val dcContributor: Option[OWLAnnotation] = ontology
+      .getAnnotations
+      .toList
+      .find(a => a.getProperty.getIRI.toString == "http://purl.org/dc/elements/1.1/contributor")
+
+    val hasDCContributor = dcContributor match {
+      case Some(t) => true
+      case None => false    
+    }
+
+    if (hasDCContributor) {
+      //TODO: DRY BELOW
+      val contributorNames = dcContributor.get.getValue
+
+      val invalidCreatorReg = """(?i) and |\/|\n|_|\||\r\|\t|\v""".r
+
+      val matches = invalidCreatorReg.findFirstMatchIn(contributorNames.toString) match {
+        case Some(m) => true
+        case None => false
+      }
+
+      if (matches)
+        return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/contributor")))
+
+    }
+    (true, List())
+  }
+
+
+
 
   // entities-must-have-rdfs-comment
   def entitiesMustHaveRDFSComment (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
