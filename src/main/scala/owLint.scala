@@ -18,7 +18,8 @@ class OwLint (config: Map[String, Boolean]) {
 
         if (!lintResults._1) {
           //This test fails
-          resultList = resultList :+ LintResult(false, conf._1, OwLintErrors(lintTesterRunner._2.description, lintResults._2))
+          val sortedResults = sortErrorsAlphabetically(lintResults._2)
+          resultList = resultList :+ LintResult(false, conf._1, OwLintErrors(lintTesterRunner._2.description, sortedResults))
         } else {
           //This test passes
           resultList = resultList :+ LintResult(true, conf._1, OwLintErrors())
@@ -27,6 +28,12 @@ class OwLint (config: Map[String, Boolean]) {
     }
     resultList
   }
+
+  def sortErrorsAlphabetically (errors: List[OffendingInstance]): List[OffendingInstance] = {
+    //Sort the errors by type, and content strings
+    errors.sortBy(error => (error.tyype, error.content))
+  }
+
 
   val lintTestMappings: Map [String, LintFunctionDef] = 
     Map (
