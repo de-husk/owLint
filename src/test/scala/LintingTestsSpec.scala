@@ -61,4 +61,16 @@ class LintingTestsSpec extends FlatSpec with Matchers{
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
+
+  "ontology-must-have-dc-date" should "return true on valid test owl file" in {
+    val result = owLintRunner.ontologyMustHaveDCDate(passingOntology)
+    assert(result._1 == true)
+    assert(result._2.length == 0)
+  }
+
+  it should "return false on invalid test owl file" in {
+    val result = owLintRunner.ontologyMustHaveDCDate(failingOntology)
+    assert(result._1 == false)
+    assert(result._2.length != 0)
+  }
 }

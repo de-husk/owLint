@@ -42,7 +42,8 @@ class OwLint (config: Map[String, Boolean]) {
       "ontology-must-have-dc-title" -> LintFunctionDef(ontologyMustHaveDCTitle, "The ontology must have a DC title annotation"),
       "ontology-must-have-dc-creator" -> LintFunctionDef(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
       "ontology-must-have-only-one-dc-creator" -> LintFunctionDef(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator annotation."),
-      "ontology-must-have-only-one-dc-contributor" -> LintFunctionDef(ontologyMustHaveOneDCContributor, "The ontology cannot have more than one DC contributor in each dc:contributor annotation")
+      "ontology-must-have-only-one-dc-contributor" -> LintFunctionDef(ontologyMustHaveOneDCContributor, "The ontology cannot have more than one DC contributor in each dc:contributor annotation"),
+      "ontology-must-have-dc-date" -> LintFunctionDef(ontologyMustHaveDCDate, "The ontology must have a dc:date annotation")
     )
 
   case class LintResult (
@@ -68,10 +69,7 @@ class OwLint (config: Map[String, Boolean]) {
 
 
   // linting tests live below:
-  //Return:  (didItLint, List[OffendingInstance])
-
   //TODO: DRY up this code
-  //TODO: Better way to grab a single annotation via IRI?
 
   // ontology-must-have-version-info test
   def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
@@ -183,7 +181,23 @@ class OwLint (config: Map[String, Boolean]) {
     (true, List())
   }
 
+  //ontology-must-have-dc-date
+  def ontologyMustHaveDCDate (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val dcDate = ontology
+      .getAnnotationPropertiesInSignature
+      .toList
+      .find(a => a.getIRI.toString == "http://purl.org/dc/elements/1.1/date")
 
+    val hasDcDate = dcDate match {
+      case Some(t) => true
+      case None => false
+    }
+
+    if (!hasDcDate) {
+      return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/date")))
+    }
+    (true, List())
+  }
 
 
   // entities-must-have-rdfs-comment

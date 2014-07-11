@@ -34,6 +34,7 @@
         <rdfs:comment xml:lang="en">An example ontology that contains all constructs required for the various versions of the Pizza Tutorial run by Manchester University (see http://www.co-ode.org/resources/tutorials/)</rdfs:comment>
         <dc:creator>Chef Hungry</dc:creator>
         <dc:contributor>Chef Starving</dc:contributor>
+        <dc:date>2014-01-01</dc:date>
         <owl:imports rdf:resource="http://protege.stanford.edu/plugins/owl/protege"/>
     </owl:Ontology>
     

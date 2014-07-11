@@ -151,6 +151,7 @@ object OwLintStarter {
       "ontology-must-have-dc-creator" -> true,
       "ontology-must-have-only-one-dc-creator" -> true,
       "ontology-must-have-only-one-dc-contributor" -> true,
+      "ontology-must-have-dc-date" -> true,
       "entities-must-have-rdfs-comment" -> true
     )
   }
