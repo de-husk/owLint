@@ -32,8 +32,20 @@ Each owl:Ontology must have an [owl:versionInfo](http://www.w3.org/TR/owl-ref/#v
 ###ontology-must-have-dc-title
 ###ontology-must-have-dc-creator
 ###ontology-must-have-only-one-dc-creator
+Each dc:creator annotation can only have one name listed in the annotation. It is impossible to perfectly enforce this rule, but this can catch the most common ways people try to place more than one person into a single dc:creator annotation.
+
+This test will fail if the dc:creator annotation contains any of the following: 
+* new line, 
+* carriage return, 
+* tab, 
+* vertical tab, 
+* /, 
+* _, 
+* |,
+* " and " (Notice the spaces padding the word. This is done to make sure that someone who has the substring and in their name will not make this lint fail). 
 
 ##Entities
+
 
 ###entities-must-have-rdfs-comment
 All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace must have rdfs:comment annotations.
