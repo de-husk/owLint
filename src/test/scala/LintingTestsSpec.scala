@@ -85,4 +85,16 @@ class LintingTestsSpec extends FlatSpec with Matchers{
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
+
+  "iris-and-labels-are-unique" should "return true on valid test owl file" in {
+    val result = owLintRunner.irisAndLabelsAreUnique(passingOntology)
+    assert(result._1 == true)
+    assert(result._2.length == 0)  
+  }
+
+  it should "return false on invalid test owl file" in {
+    val result = owLintRunner.irisAndLabelsAreUnique(failingOntology)
+    assert(result._1 == false)
+    assert(result._2.length != 0)
+  }
 }
