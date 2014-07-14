@@ -54,6 +54,21 @@ This test will fail if the dc:creator annotation contains any of the following:
 All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace must have rdfs:comment annotations.
   
 
+##General
+
+###iris-and-labels-are-unique
+The human readable portion of IRIs and rdfs:labels must be a unique set. 
+
+Example of what would trigger a failure:
+
+```
+  <owl:Class rdf:about="#Cajun">
+...
+    <rdfs:label xml:lang="pt">Cajun</rdfs:label>
+...
+  </owl:Class>
+```
+
 Development
 ===========
 
