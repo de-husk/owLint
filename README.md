@@ -14,9 +14,12 @@ An example .owlint file is seen below
 {
   "ontology-must-have-version-info" : true,
   "ontology-must-have-dc-title" : true,
-  "ontology-must-have-dc-creator" : false,
-  "ontology-must-have-only-one-dc-creator" : false,
-  "entities-must-have-rdfs-comment" : true
+  "ontology-must-have-dc-creator" : true,
+  "ontology-must-have-only-one-dc-creator" : true,
+  "ontology-must-have-only-one-dc-contributor" : true,
+  "ontology-must-have-dc-date" : true,
+  "entities-must-have-rdfs-comment" : true,
+  "iris-and-labels-are-unique" : true
 }
 ```
 A .owlint file is optional. By default all of the tests are enabled.
