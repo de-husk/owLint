@@ -42,6 +42,7 @@ class OwLint (config: Map[String, Boolean]) {
       "ontology-must-have-dc-creator" -> LintFunctionDef(ontologyMustHaveDCCreator, "The ontology must have a DC creator annotation"),
       "ontology-must-have-only-one-dc-creator" -> LintFunctionDef(ontologyMustHaveOneDCCreator, "The ontology cannot have more than one DC creator listed in the dc:creator annotation."),
       "ontology-must-have-only-one-dc-contributor" -> LintFunctionDef(ontologyMustHaveOneDCContributor, "The ontology cannot have more than one DC contributor in each dc:contributor annotation"),
+      "iris-and-labels-are-unique" -> LintFunctionDef(irisAndLabelsAreUnique, "The human readable portion of IRIs and rdfs:labels must be a unique set"),
       "ontology-must-have-dc-date" -> LintFunctionDef(ontologyMustHaveDCDate, "The ontology must have a dc:date annotation")
     )
 
@@ -150,36 +151,49 @@ class OwLint (config: Map[String, Boolean]) {
     (true, List())
   }
 
+  //iris-and-labels-are-unique
+  def irisAndLabelsAreUnique (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val entities = getEntitiesDefinedInCurrentOWLFile(ontology)
+
+    val iris = entities map { e =>
+      e.getIRI.getFragment
+    }
+    
+    val entitiesWithLabels = entities.filter(e => OWLEntityHasAnnotation(e, ontology, "rdfs:label")) 
+
+    val labels = entitiesWithLabels map { e =>
+      val label = e.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdfs:label").get
+      val pattern = """\"(.*)\"""".r
+      pattern.findAllIn(label.getValue.toString).matchData.toList(0).group(1).trim
+    }
+
+    val matches =  iris.filter(labels.toSet) 
+
+    if (matches.length != 0) {
+      return (false, matches map { m =>
+        OffendingInstance("IRI", ontology.getOntologyID.getOntologyIRI.toString+"#"+m)
+      })
+    }
+
+    (true, List())
+  }
 
   // entities-must-have-rdfs-comment
   def entitiesMustHaveRDFSComment (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
-    val classes: List[OWLEntity] = ontology.getClassesInSignature.toList
-    val individuals: List[OWLEntity] = ontology.getIndividualsInSignature.toList
+    val entities: List[OWLEntity] = getEntitiesDefinedInCurrentOWLFile(ontology)
 
-    //properties = objectProperties + annotationProperties + dataProperties
-    val objectProperties: List[OWLEntity] = ontology.getObjectPropertiesInSignature.toList
-    val annotationProperties: List[OWLEntity] = ontology.getAnnotationPropertiesInSignature.toList
-    val dataProperties: List[OWLEntity] = ontology.getDataPropertiesInSignature.toList
-
-    val properties: List[OWLEntity] =  objectProperties ++ annotationProperties ++ dataProperties
-
-    val entities: List[OWLEntity] = classes ++ individuals ++ properties
-   
     var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
     
     entities foreach { entity =>
-      if (entity.toString.contains(ontology.getOntologyID.getOntologyIRI.toString)) {
-        // if current entity is defined in the current ontology
-        val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdfs:comment")
+      val descriptionAnnotation = entity.getAnnotations(ontology).toList.find(a => a.getProperty.toString == "rdfs:comment")
 
-        val hasDescription = descriptionAnnotation match {
-          case Some(d) => true
-          case None => false
-        }
+      val hasDescription = descriptionAnnotation match {
+        case Some(d) => true
+        case None => false
+      }
 
-        if (!hasDescription) {
-          offendingLines = offendingLines :+ OffendingInstance(entity.getEntityType.getName, entity.getIRI.toString)
-        }
+      if (!hasDescription) {
+        offendingLines = offendingLines :+ OffendingInstance(entity.getEntityType.getName, entity.getIRI.toString)
       }
     }
 
@@ -190,11 +204,16 @@ class OwLint (config: Map[String, Boolean]) {
   }
 
   //Linter helper functions
+ def getEntitiesDefinedInCurrentOWLFile (ontology: OWLOntology): List[OWLEntity] = {
+   val entities: List[OWLEntity] = ontology.getSignature.toList
+   entities.filter(e => e.toString.contains(ontology.getOntologyID.getOntologyIRI.toString))
+ }
+
  def OWLEntityHasAnnotation(entity: OWLEntity, ontology:OWLOntology, iri: String): Boolean = {
     val annotation = entity
       .getAnnotations(ontology)
       .toList
-      .find(a => a.getProperty.toString == iri.toString)
+      .find(a => a.getProperty.toString == iri.toString) //TODO: doesnt need a toString (just change parameter to IRI)
 
     annotation match {
       case Some(a) => true
@@ -206,7 +225,7 @@ class OwLint (config: Map[String, Boolean]) {
     val annotation = ontology
       .getAnnotationPropertiesInSignature
       .toList
-      .find(a => a.getIRI.toString == iri.toString)
+      .find(a => a.getIRI.toString == iri.toString) //TODO: doesnt need t a toString (Just change parameter to IRI)
 
     annotation match {
       case Some(a) => true
