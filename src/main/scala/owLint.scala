@@ -153,6 +153,7 @@ class OwLint (config: Map[String, Boolean]) {
 
   //iris-and-labels-are-unique
   def irisAndLabelsAreUnique (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    //TODO: ignore case
     val entities = getEntitiesDefinedInCurrentOWLFile(ontology)
 
     val iris = entities map { e =>
