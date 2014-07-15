@@ -3,6 +3,9 @@
 
 owLint is a configurable, command line OWL file linter. It utilizes the [OWL API](https://github.com/owlcs/owlapi).
 
+owLint is distributed as a tool through [npm](https://www.npmjs.org/package/owlint).
+Install owLint globally via the following command: `npm install -g owlint`.
+
 Usage
 =====
 
