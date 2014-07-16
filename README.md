@@ -1,4 +1,4 @@
-#owLint [![Build Status](https://travis-ci.org/Samangan/owLint.svg?branch=master)](http://travis-ci.org/Samangan/owLint)[![Coverage Status](https://coveralls.io/repos/Samangan/owLint/badge.png)](https://coveralls.io/r/Samangan/owLint)
+#owLint [![Build Status](https://travis-ci.org/Samangan/owLint.svg?branch=master)](http://travis-ci.org/Samangan/owLint)
 
 
 owLint is a configurable, command line OWL file linter. It utilizes the [OWL API](https://github.com/owlcs/owlapi).
