@@ -1,4 +1,4 @@
-package owLint;
+package owLint
 
 import org.semanticweb.owlapi.model._
 import org.semanticweb.owlapi.model.OWLOntology

@@ -4,7 +4,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager
 import org.semanticweb.owlapi.apibinding.OWLManager
 import org.semanticweb.owlapi.model.OWLOntology
 
-import owLint.OwLint
+import owLint._
 
 class LintingTestsSpec extends FlatSpec with Matchers{
   val ontologyManager: OWLOntologyManager = OWLManager.createOWLOntologyManager

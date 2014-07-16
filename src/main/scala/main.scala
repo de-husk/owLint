@@ -4,7 +4,7 @@
     the owl files in question. Use -h for more detail.
 */
 
-import owLint._
+package owLint
 
 import scala.io.Source
 import scala.util.matching.Regex

@@ -1,4 +1,5 @@
 import org.scalatest._
+import owLint._
 
 class MainTestsSpec extends FlatSpec with Matchers {
 
