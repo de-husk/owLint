@@ -12,88 +12,87 @@ class LintingTestsSpec extends FlatSpec with Matchers{
   val passingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza.owl"))
   val failingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-fails.owl"))
   val creatorFailingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-more-than-one-creator-fails.owl"))
-  val owLintRunner = new OwLint(OwLintStarter.getOwLintConfig("fakepath"))
 
   "ontology-must-have-version-info" should "return true on proper test owl file" in {
-    val result = owLintRunner.ontologyMustHaveVersionInfo(passingOntology)
+    val result = LinterTests.ontologyMustHaveVersionInfo(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)
   }
 
   it should "return false on failing test owl file" in {
-    val result = owLintRunner.ontologyMustHaveVersionInfo(failingOntology)
+    val result = LinterTests.ontologyMustHaveVersionInfo(failingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
  
   "ontology-must-have-dc-title" should "return true on proper test owl file" in {
-    val result = owLintRunner.ontologyMustHaveDCTitle(passingOntology)
+    val result = LinterTests.ontologyMustHaveDCTitle(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)
   }
 
   it should "return false on failing test owl file" in {
-    val result = owLintRunner.ontologyMustHaveDCTitle(failingOntology)
+    val result = LinterTests.ontologyMustHaveDCTitle(failingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
 
   "ontology-must-have-dc-creator" should "return true on valid test owl file" in {
-    val result = owLintRunner.ontologyMustHaveDCCreator(passingOntology)
+    val result = LinterTests.ontologyMustHaveDCCreator(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)
   }
 
   it should "return false on invalid test owl file" in {
-    val result = owLintRunner.ontologyMustHaveDCCreator(failingOntology)
+    val result = LinterTests.ontologyMustHaveDCCreator(failingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
 
   "ontology-must-have-only-one-dc-creator" should "return true on proper test owl file" in {
-    val result = owLintRunner.ontologyMustHaveOneDCCreator(passingOntology)
+    val result = LinterTests.ontologyMustHaveOneDCCreator(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)
   }
 
   it should "return false on mutliple dc creator failing test owl file" in {
-    val result = owLintRunner.ontologyMustHaveOneDCCreator(creatorFailingOntology)
+    val result = LinterTests.ontologyMustHaveOneDCCreator(creatorFailingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
 
   "ontology-must-have-only-one-dc-contributor" should "return true on valid test owl file" in {
-    val result = owLintRunner.ontologyMustHaveOneDCContributor(passingOntology)
+    val result = LinterTests.ontologyMustHaveOneDCContributor(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)
   }
 
   it should "return false on mutlple dc contributor failing test owl file" in {
-    val result = owLintRunner.ontologyMustHaveOneDCContributor(creatorFailingOntology)
+    val result = LinterTests.ontologyMustHaveOneDCContributor(creatorFailingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
 
   "ontology-must-have-dc-date" should "return true on valid test owl file" in {
-    val result = owLintRunner.ontologyMustHaveDCDate(passingOntology)
+    val result = LinterTests.ontologyMustHaveDCDate(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)
   }
 
   it should "return false on invalid test owl file" in {
-    val result = owLintRunner.ontologyMustHaveDCDate(failingOntology)
+    val result = LinterTests.ontologyMustHaveDCDate(failingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
 
   "iris-and-labels-are-unique" should "return true on valid test owl file" in {
-    val result = owLintRunner.irisAndLabelsAreUnique(passingOntology)
+    val result = LinterTests.irisAndLabelsAreUnique(passingOntology)
     assert(result._1 == true)
     assert(result._2.length == 0)  
   }
 
   it should "return false on invalid test owl file" in {
-    val result = owLintRunner.irisAndLabelsAreUnique(failingOntology)
+    val result = LinterTests.irisAndLabelsAreUnique(failingOntology)
     assert(result._1 == false)
     assert(result._2.length != 0)
   }
