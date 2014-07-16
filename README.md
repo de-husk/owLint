@@ -96,5 +96,5 @@ If you add an additional option please add relevent tests.
 
 Screenshots
 ===========
-![screenshot](http://i.imgur.com/aKP7x86.png)
+![screenshot](http://i.imgur.com/AnKPqqU.png)
 
