@@ -58,17 +58,17 @@ object OwLintStarter {
         val passes = result.success
         val errors = result.errors
         if (passes == false) {
-          Console.println(Console.RED + "\nLint Failed!!" + Console.RESET)
+          println(Console.RED + "\nLint Failed!!" + Console.RESET)
 
-          Console.err.println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
-          Console.err.println(Console.RED + "Lint Error: " + Console.RESET)
-          Console.err.println(Console.RED + "\tReason For Failure:\t" + errors.problemDescription +  Console.RESET)
-          Console.err.println(Console.RED + "\tNumber of offenses:\t" + errors.offendingLines.length +  Console.RESET)
+          println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
+          println(Console.RED + "Lint Error: " + Console.RESET)
+          println(Console.RED + "\tReason For Failure:\t" + errors.problemDescription +  Console.RESET)
+          println(Console.RED + "\tNumber of offenses:\t" + errors.offendingLines.length +  Console.RESET)
 
           errors.offendingLines foreach { line =>
-            Console.err.println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  +"\t" + line.content +  Console.RESET)
+            println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  +"\t" + line.content +  Console.RESET)
           }
-            Console.err.println(Console.MAGENTA+ "------------------------------" + Console.RESET)
+            println(Console.MAGENTA+ "------------------------------" + Console.RESET)
 
         } else {
           println("[" + Console.GREEN + "success" + Console.RESET + "] " + result.name  +   " successfully passed!" + Console.RESET)
