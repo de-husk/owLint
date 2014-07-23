@@ -36,6 +36,8 @@ List of Options
 Each owl:Ontology must have an [owl:versionInfo](http://www.w3.org/TR/owl-ref/#versionInfo-def) annotation property.
 
 ###ontology-must-have-dc-title
+Each owl:Ontology must have a [dc:title](http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#title) annotation property.
+
 ###ontology-must-have-dc-creator
 ###ontology-must-have-only-one-dc-creator
 Each dc:creator annotation can only have one name listed in the annotation. It is impossible to perfectly enforce this rule, but this can catch the most common ways people try to place more than one person into a single dc:creator annotation.
