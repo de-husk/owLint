@@ -117,7 +117,6 @@ object LinterTests {
   // entities-must-have-rdfs-comment
   def entitiesMustHaveRDFSComment (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
     val entities: List[OWLEntity] = getEntitiesDefinedInCurrentOWLFile(ontology)
-
     var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
     
     entities foreach { entity =>
@@ -139,7 +138,58 @@ object LinterTests {
     (true, List())
   }
 
+  //non-root-classes-need-genus-differentiation
+  def nonRootClassesNeedGenusDifferentiation (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+    val classes = getClassesDefinedInCurrentOWLFile(ontology)
+    var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
+
+    classes foreach { c =>
+      //Check if current class is not a root node
+      val superClasses = c.getSuperClasses(ontology).toList
+      
+      val hasGenusDifferentiation = false
+
+      if (superClasses.length != 0) {
+        // Check if it has genus-differentiation
+        println()
+        println()
+        println(c)
+        
+        // genus differentation:
+        // c rdfs:subClassOf <ObjectProperty> <Quantifier> <Class/Anon Class>
+
+        superClasses foreach { superClass =>
+          println(superClass)
+
+          println(superClass.getClassExpressionType)
+          val classExpressionType = superClass.getClassExpressionType
+
+          //TODO: get a list of ClassExpressionTypes that count as a genusDifferentiation
+          //TODO: if it matches one of those above types then set hasGenuDifferentiation to true and 
+          //      continue the loop
+          // if (classExpressionType != ClassExpressionType.OWL_CLASS) {
+          //   println("not a class")
+          // }
+        }
+      }
+
+      if (!hasGenusDifferentiation) {
+        offendingLines = offendingLines :+ OffendingInstance(c.getEntityType.getName, c.getIRI.toString)
+      }
+    }
+
+    if (offendingLines.length != 0)
+      return (false, offendingLines)
+
+    (true, List())
+  }
+
   //Linter helper functions
+  def getClassesDefinedInCurrentOWLFile (ontology: OWLOntology): List[OWLClass] = {
+    val classes: List[OWLClass] = ontology.getClassesInSignature.toList
+    classes.filter(c => c.toString.contains(ontology.getOntologyID.getOntologyIRI.toString))
+  }
+
  def getEntitiesDefinedInCurrentOWLFile (ontology: OWLOntology): List[OWLEntity] = {
    val entities: List[OWLEntity] = ontology.getSignature.toList
    entities.filter(e => e.toString.contains(ontology.getOntologyID.getOntologyIRI.toString))

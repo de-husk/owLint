@@ -153,6 +153,7 @@ object OwLintStarter {
       "ontology-must-have-only-one-dc-contributor" -> true,
       "ontology-must-have-dc-date" -> true,
       "iris-and-labels-are-unique" -> true,
+       "non-root-classes-need-genus-differentiation" -> true,
       "entities-must-have-rdfs-comment" -> true
     )
   }
