@@ -93,7 +93,7 @@ The linter function you add must be in the following format:
 
 ```def superCoolLinterTest (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {/**/}```
 
-If you add an additional option please add relevent tests.
+If you add an additional option please add relevant tests.
 
 
 Screenshots
