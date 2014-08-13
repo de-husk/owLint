@@ -7,18 +7,18 @@ class OwLint (config: Map[String, Boolean]) {
   def doesFileLint (ontology: OWLOntology) : List[LintResult] = { 
     var resultList: List[LintResult] = List[LintResult]()
 
-    config foreach { conf =>
-      if (conf._2 == true) {
-        val lintTesterRunner = lintTestMappings.find({case (a, b) => a == conf._1}).get
+    config foreach { case (lintName, runTest) =>
+      if (runTest == true) {
+        val lintTesterRunner = lintTestMappings.find({case (a, b) => a == lintName}).get
 
         //Run the lintTest Function
         val lintResults = lintTesterRunner._2.function(ontology)
 
         if (!lintResults.success) {
           val sortedResults = sortErrorsAlphabetically(lintResults.offendingInstances)
-          resultList = resultList :+ LintResult(false, conf._1, OwLintErrors(lintTesterRunner._2.description, sortedResults))
+          resultList = resultList :+ LintResult(false, lintName, OwLintErrors(lintTesterRunner._2.description, sortedResults))
         } else {
-          resultList = resultList :+ LintResult(true, conf._1, OwLintErrors())
+          resultList = resultList :+ LintResult(true, lintName, OwLintErrors())
         }
       }
     }
