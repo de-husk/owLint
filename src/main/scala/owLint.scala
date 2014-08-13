@@ -14,12 +14,10 @@ class OwLint (config: Map[String, Boolean]) {
         //Run the lintTest Function
         val lintResults = lintTesterRunner._2.function(ontology)
 
-        if (!lintResults._1) {
-          //This test fails
-          val sortedResults = sortErrorsAlphabetically(lintResults._2)
+        if (!lintResults.success) {
+          val sortedResults = sortErrorsAlphabetically(lintResults.offendingInstances)
           resultList = resultList :+ LintResult(false, conf._1, OwLintErrors(lintTesterRunner._2.description, sortedResults))
         } else {
-          //This test passes
           resultList = resultList :+ LintResult(true, conf._1, OwLintErrors())
         }
       }
@@ -62,6 +60,11 @@ case class OffendingInstance (
 )
 
 case class LintFunctionDef (
-  function: Function1[OWLOntology, (Boolean, List[OffendingInstance])],
+  function: Function1[OWLOntology, LintFunctionResult],
   description: String
+)
+
+case class LintFunctionResult (
+  success: Boolean,
+  offendingInstances: List[OffendingInstance]
 )

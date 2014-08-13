@@ -7,37 +7,37 @@ import collection.JavaConversions._
 // All linter tests should be defined in this object
 object LinterTests {
   // ontology-must-have-version-info test
-  def ontologyMustHaveVersionInfo (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def ontologyMustHaveVersionInfo (ontology: OWLOntology): LintFunctionResult = {
     val hasVersionInfo = OWLOntologyHasAnnotation(ontology, "http://www.w3.org/2002/07/owl#versionInfo")
 
     if (!hasVersionInfo) {
-      return (false, List(OffendingInstance("AnnotationProperty", "http://www.w3.org/2002/07/owl#versionInfo")))
+      return LintFunctionResult(false, List(OffendingInstance("AnnotationProperty", "http://www.w3.org/2002/07/owl#versionInfo")))
     }
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   // ontology-must-have-dc-title
-  def ontologyMustHaveDCTitle (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def ontologyMustHaveDCTitle (ontology: OWLOntology): LintFunctionResult = {
     val hasDCTitle = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/title")
 
     if (!hasDCTitle) {
-      return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/title")))
+      return LintFunctionResult(false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/title")))
     }
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   // ontology-must-have-dc-creator
-  def ontologyMustHaveDCCreator (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def ontologyMustHaveDCCreator (ontology: OWLOntology): LintFunctionResult = {
     val hasDCCreator = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/creator")
 
     if (!hasDCCreator) {
-      return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
+      return LintFunctionResult(false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
     }
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   // ontology-must-have-only-one-dc-creator
-  def ontologyMustHaveOneDCCreator  (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def ontologyMustHaveOneDCCreator  (ontology: OWLOntology): LintFunctionResult = {
     val dcCreator: Option[OWLAnnotation] = ontology
       .getAnnotations
       .toList
@@ -52,13 +52,13 @@ object LinterTests {
       val hasMoreThanOneCreator = hasUnwantedDelimiters(dcCreator.get.getValue.toString)
 
       if (hasMoreThanOneCreator)
-        return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
+        return LintFunctionResult(false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/creator")))
     }
-    return (true, List())
+    return LintFunctionResult(true, List())
   } 
 
   //ontology-must-have-only-one-dc-contributor
-  def ontologyMustHaveOneDCContributor (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def ontologyMustHaveOneDCContributor (ontology: OWLOntology): LintFunctionResult= {
     val dcContributor: Option[OWLAnnotation] = ontology
       .getAnnotations
       .toList
@@ -73,22 +73,22 @@ object LinterTests {
       val hasMoreThanOneContributor = hasUnwantedDelimiters(dcContributor.get.getValue.toString)
 
       if (hasMoreThanOneContributor)
-        return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/contributor")))
+        return LintFunctionResult(false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/contributor")))
     }
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   //ontology-must-have-dc-date
-  def ontologyMustHaveDCDate (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def ontologyMustHaveDCDate (ontology: OWLOntology): LintFunctionResult = {
     val hasDcDate = OWLOntologyHasAnnotation(ontology, "http://purl.org/dc/elements/1.1/date")
     if (!hasDcDate) {
-      return (false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/date")))
+      return LintFunctionResult(false, List(OffendingInstance("AnnotationProperty", "http://purl.org/dc/elements/1.1/date")))
     }
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   //iris-and-labels-are-unique
-  def irisAndLabelsAreUnique (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def irisAndLabelsAreUnique (ontology: OWLOntology): LintFunctionResult= {
     val entities = getEntitiesDefinedInCurrentOWLFile(ontology)
 
     val iris = entities map { e =>
@@ -106,16 +106,16 @@ object LinterTests {
     val matches =  iris.filter(labels.toSet) 
 
     if (matches.length != 0) {
-      return (false, matches map { m =>
+      return LintFunctionResult(false, matches map { m =>
         OffendingInstance("IRI", ontology.getOntologyID.getOntologyIRI.toString+"#"+m)
       })
     }
 
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   // entities-must-have-rdfs-comment
-  def entitiesMustHaveRDFSComment (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def entitiesMustHaveRDFSComment (ontology: OWLOntology): LintFunctionResult = {
     val entities: List[OWLEntity] = getEntitiesDefinedInCurrentOWLFile(ontology)
     var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
     
@@ -133,13 +133,13 @@ object LinterTests {
     }
 
     if (offendingLines.length != 0)
-      return (false, offendingLines)
+      return LintFunctionResult(false, offendingLines)
 
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   //non-root-classes-need-genus-differentiation
-  def nonRootClassesNeedGenusDifferentiation (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {
+  def nonRootClassesNeedGenusDifferentiation (ontology: OWLOntology): LintFunctionResult= {
     val classes = getClassesDefinedInCurrentOWLFile(ontology)
     var offendingLines: List[OffendingInstance] = List[OffendingInstance]()
 
@@ -179,9 +179,9 @@ object LinterTests {
     }
 
     if (offendingLines.length != 0)
-      return (false, offendingLines)
+      return LintFunctionResult(false, offendingLines)
 
-    (true, List())
+    LintFunctionResult(true, List())
   }
 
   //Linter helper functions
