@@ -91,7 +91,9 @@ To add your linter function add the function and full text description to the li
 
 The linter function you add must be in the following format:
 
-```def superCoolLinterTest (ontology: OWLOntology): (Boolean, List[OffendingInstance]) = {/**/}```
+```
+def superCoolLinterTest (ontology: OWLOntology): LintFunctionResult = {/**/}
+```
 
 If you add an additional option please add relevant tests.
 
