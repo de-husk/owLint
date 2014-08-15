@@ -4,6 +4,10 @@
     the owl files in question. Use -h for more detail.
 */
 
+
+// TODO: Allow for the user to input the name of a specific file to lint
+
+
 package owLint
 
 import scala.io.Source

@@ -147,34 +147,21 @@ object LinterTests {
       //Check if current class is not a root node
       val superClasses = c.getSuperClasses(ontology).toList
       
-      val hasGenusDifferentiation = false
+      var hasGenusDifferentiation = false
 
       if (superClasses.length != 0) {
         // Check if it has genus-differentiation
-        println()
-        println()
-        println(c)
-        
-        // genus differentation:
-        // c rdfs:subClassOf <ObjectProperty> <Quantifier> <Class/Anon Class>
-
         superClasses foreach { superClass =>
-          println(superClass)
-
-          println(superClass.getClassExpressionType)
           val classExpressionType = superClass.getClassExpressionType
 
-          //TODO: get a list of ClassExpressionTypes that count as a genusDifferentiation
-          //TODO: if it matches one of those above types then set hasGenuDifferentiation to true and 
-          //      continue the loop
-          // if (classExpressionType != ClassExpressionType.OWL_CLASS) {
-          //   println("not a class")
-          // }
+          if (classExpressionType != ClassExpressionType.OWL_CLASS) {
+            hasGenusDifferentiation = true
+          }
         }
-      }
 
-      if (!hasGenusDifferentiation) {
-        offendingLines = offendingLines :+ OffendingInstance(c.getEntityType.getName, c.getIRI.toString)
+        if (!hasGenusDifferentiation) {
+          offendingLines = offendingLines :+ OffendingInstance(c.getEntityType.getName, c.getIRI.toString)
+        }
       }
     }
 

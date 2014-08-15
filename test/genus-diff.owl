@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+ 
+ 
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+ 
+ 
+<rdf:RDF xmlns="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294#"
+     xml:base="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294"/>
+   
+ 
+ 
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+ 
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part -->
+ 
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part"/>
+   
+ 
+ 
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+ 
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/line -->
+ 
+    <owl:Class rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/line"/>
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/planar_figure -->
+ 
+    <owl:Class rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/planar_figure">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/polygon -->
+ 
+    <owl:Class rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/polygon">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/planar_figure"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part"/>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side -->
+ 
+    <owl:Class rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/square -->
+ 
+    <owl:Class rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/square">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/polygon"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part"/>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">4</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+   
+ 
+ 
+    <!-- http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/triangle -->
+ 
+    <owl:Class rdf:about="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/triangle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/polygon"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/has_part"/>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/amandahicks/ontologies/2014/6/untitled-ontology-294/side"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+</rdf:RDF>
+ 
