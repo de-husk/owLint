@@ -12,6 +12,7 @@ class LintingTestsSpec extends FlatSpec with Matchers{
   val passingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza.owl"))
   val failingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-fails.owl"))
   val creatorFailingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-more-than-one-creator-fails.owl"))
+  val genusDiffPassingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/genus-diff.owl"))
 
   "ontology-must-have-version-info" should "return true on proper test owl file" in {
     val result = LinterTests.ontologyMustHaveVersionInfo(passingOntology)
@@ -96,4 +97,17 @@ class LintingTestsSpec extends FlatSpec with Matchers{
     assert(result.success == false)
     assert(result.offendingInstances.length != 0)
   }
+  
+  "non-root-classes-need-genus-differentiation" should "return true on valid test owl file" in {
+    val result = LinterTests.nonRootClassesNeedGenusDifferentiation(genusDiffPassingOntology)
+    assert(result.success == true)
+    assert(result.offendingInstances.length == 0)
+  }
+
+  it should "return false on invalid test owl file" in {
+    val result = LinterTests.nonRootClassesNeedGenusDifferentiation(failingOntology)
+    assert(result.success == false)
+    assert(result.offendingInstances.length != 0)
+  }
 }
+
