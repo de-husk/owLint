@@ -59,6 +59,10 @@ This test will fail if the dc:creator annotation contains any of the following:
 All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace must have rdfs:comment annotations.
   
 
+##Classes
+
+###non-root-classes-need-genus-differentiation
+
 ##General
 
 ###iris-and-labels-are-unique
