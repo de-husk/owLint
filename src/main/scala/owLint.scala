@@ -60,7 +60,7 @@ case class OffendingInstance (
 )
 
 case class LintFunctionDef (
-  function: Function1[OWLOntology, LintFunctionResult],
+  function: OWLOntology => LintFunctionResult,
   description: String
 )
 
