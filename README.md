@@ -83,13 +83,13 @@ Development
 ===========
 
 ###Compliling
-sbt compile
+``sbt compile``
 
 ###Building and Running
-sbt "run -help"
+``sbt "run -help"``
 
 ###Testing
-sbt test
+``sbt test``
 
 ###Adding additional linter options
 To add your linter function add the function and full text description to the lintTestMappings Map.
