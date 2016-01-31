@@ -1,7 +1,7 @@
 
 name := "owLint"
 
-version := "0.0"
+version := "0.2.1"
 
 scalaVersion := "2.10.2"
 
@@ -12,3 +12,10 @@ libraryDependencies ++= Seq(
   "io.spray" %%  "spray-json" % "1.2.6",
   "org.scalatest" %% "scalatest" % "2.2.0" % "test"
 )
+
+lazy val root = (project in file(".")).
+  enablePlugins(BuildInfoPlugin).
+  settings(
+    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+    buildInfoPackage := "owLint"
+  )

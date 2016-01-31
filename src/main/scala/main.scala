@@ -13,7 +13,9 @@ import scala.util.matching.Regex
 import java.nio.file.{Paths, Files}
 import java.io.File
 import spray.json._
-import DefaultJsonProtocol._ 
+import DefaultJsonProtocol._
+import owLint.BuildInfo
+
 
 import org.semanticweb.owlapi.model.OWLOntologyManager
 import org.semanticweb.owlapi.apibinding.OWLManager
@@ -28,6 +30,7 @@ object OwLintStarter {
       case Some(c) => c
       case None => sys.exit(1)
     }
+
 
     // TODO: Scala-ify below more:
     var isFile = false
@@ -76,7 +79,8 @@ object OwLintStarter {
         val errors = result.errors
         if (passes == false) {
           allFilesPass = false
-          println(Console.RED + "\nLint Failed!!" + Console.RESET)
+          println(Console.RED + "[error] " + result.name + Console.RESET)
+          println(Console.RED + "\nLint Failed!" + Console.RESET)
 
           println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
           println(Console.RED + "Lint Error: " + Console.RESET)
@@ -101,6 +105,11 @@ object OwLintStarter {
 
 
   def deliverHelpTextIfNeeded (args: Array[String]) = {
+    if (args.contains("-v") || args.contains("-version")) {
+      println(Console.GREEN + "\n" + BuildInfo.name + " " + BuildInfo.version + Console.RESET)
+      sys.exit(0)
+    }
+
     if (args.contains("-h") || args.contains("-help")) {
       // Display help information
       println(Console.UNDERLINED + "owLint: OWL file linting tool " + Console.RESET)
