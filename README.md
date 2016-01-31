@@ -1,7 +1,7 @@
 #owLint [![Build Status](https://travis-ci.org/Samangan/owLint.svg?branch=master)](http://travis-ci.org/Samangan/owLint)
 
 
-owLint is a configurable, command line OWL file linter. It utilizes the [OWL API](https://github.com/owlcs/owlapi).
+owLint is a configurable command line OWL file linter. It utilizes the [OWL API](https://github.com/owlcs/owlapi).
 
 owLint is distributed as a tool through [npm](https://www.npmjs.org/package/owlint).
 Install owLint globally via the following command: `npm install -g owlint`.
@@ -27,6 +27,22 @@ An example .owlint file is seen below
 }
 ```
 A .owlint file is optional. By default all of the tests are enabled.
+
+owLint can also be passed a single file to lint instead of an entire directory. If there is a .owlint file in the directory containing the passed in file then that .owlint file will be used instead of the default.
+
+
+The output to owlint -h is shown below:
+
+```
+owLint: OWL file linting tool 
+This tool takes an optional argument, the path to the file to lint or to the folder containing the owl files in question.
+Examples:
+   $ owlint                             | Use current directory
+   $ owlint owlFileFolder               | Use ./owlFileFolder as the directory
+   $ owlint /home/username/somedir      | Use absolute path /home/username/somedir as the directory
+   $ owlint someOwlFile.owl             | Only lint someOwlFile.owl (You can also use absolute paths for files)
+   $ owlint -h | -help                  | Displays help information
+```
 
 
 List of Options

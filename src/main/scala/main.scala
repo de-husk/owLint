@@ -1,12 +1,10 @@
 /*
  Usage:
- *  This tool takes an optional argument, the absolute or relative path to the folder containing
-    the owl files in question. Use -h for more detail.
+ *  This tool takes an optional argument, the path to the file to lint or to the folder
+    containing the owl files in question.
+
+    Use -h for more detail.
 */
-
-
-// TODO: Allow for the user to input the name of a specific file to lint
-
 
 package owLint
 
@@ -26,23 +24,36 @@ object OwLintStarter {
   def main (args: Array[String]) = {
     deliverHelpTextIfNeeded(args)
 
-    val currentDirectory = getCurrentDirectory(args) match {
+    val lintingTarget = getLintingTargetFromArgs(args) match {
       case Some(c) => c
       case None => sys.exit(1)
     }
 
-    if (!isValidDirectoryPath(currentDirectory)) {
-      Console.err.println(Console.RED + "Error: " + currentDirectory + " is not a real directory!\nUse -h for help information." + Console.RESET)
+    // TODO: Scala-ify below more:
+    var isFile = false
+
+    if (isValidDirectory(lintingTarget)) {
+      isFile = false
+    } else if (isValidFile(lintingTarget)) {
+      isFile = true
+      if (!isValidOwlFile(lintingTarget)) {
+        Console.err.println(Console.RED + "Error: " + lintingTarget + " is not an owl file!\nUse -h for help information." + Console.RESET)
+        sys.exit(1)
+      }
+    } else {
+      Console.err.println(Console.RED + "Error: " + lintingTarget + " is not a real file or directory!\nUse -h for help information." + Console.RESET)
       sys.exit(1)
     }
 
-    val owLintConfig: Map[String, Boolean] = getOwLintConfig(currentDirectory)
+    val owLintConfig: Map[String, Boolean] = getOwLintConfig(lintingTarget, isFile)
 
-    // Process each *.owl file in currentDirectory
-    val owlFiles = getOwlFilesInCurrDirectory(currentDirectory)
+    val owlFiles = isFile match {
+      case true => Array(new File(lintingTarget))
+      case false => getOwlFilesInCurrDirectory(lintingTarget)
+    }
 
     if (owlFiles.length == 0) {
-      Console.err.println(Console.RED + "Error: " + currentDirectory + " has no owl files!\nUse -h for help information." + Console.RESET)
+      Console.err.println(Console.RED + "Error: " + lintingTarget + " has no owl files!\nUse -h for help information." + Console.RESET)
       sys.exit(1)
     }
 
@@ -93,11 +104,12 @@ object OwLintStarter {
     if (args.contains("-h") || args.contains("-help")) {
       // Display help information
       println(Console.UNDERLINED + "owLint: OWL file linting tool " + Console.RESET)
-      println(Console.CYAN + "This tool takes an optional argument, the absolute or relative path to the folder containing the owl files in question." +  Console.RESET)
+      println(Console.CYAN + "This tool takes an optional argument, the path to the file to lint or to the folder containing the owl files in question." +  Console.RESET)
       println("Examples:" +
         Console.GREEN + "\n   $ owlint                             " + Console.YELLOW + "| Use current directory" +
         Console.GREEN + "\n   $ owlint owlFileFolder               " + Console.YELLOW + "| Use ./owlFileFolder as the directory" +
         Console.GREEN + "\n   $ owlint /home/username/somedir      " + Console.YELLOW + "| Use absolute path /home/username/somedir as the directory" +
+        Console.GREEN + "\n   $ owlint someOwlFile.owl             " + Console.YELLOW + "| Only lint someOwlFile.owl (You can also use absolute paths for files)" +
         Console.GREEN + "\n   $ owlint -h | -help                  " + Console.YELLOW + "| Displays help information" +
         Console.RESET)
       sys.exit(0)
@@ -105,10 +117,10 @@ object OwLintStarter {
   }
 
 
-  def getCurrentDirectory (args: Array[String]): Option[String] = {
+  def getLintingTargetFromArgs (args: Array[String]): Option[String] = {
     args.length match {
-      case 0 => Some(System.getProperty("user.dir")) // Use current dir as currentDirectory
-      case 1 => Some(args(0))                        // Use inputted dir as currentDirectory
+      case 0 => Some(System.getProperty("user.dir")) // Use current dir as linting target
+      case 1 => Some(args(0))                        // Use inputted dir or file as linting target
       case moreThanOne => {                          // Return an error and exit because this tool only takes one argument
         Console.err.println(Console.RED + "Error: owLint only takes one argument!\nUse -h for help information." + Console.RESET)
         None
@@ -116,25 +128,37 @@ object OwLintStarter {
     }
   }
 
-  def isValidDirectoryPath (currentDirectory: String): Boolean = {
-    Files.exists(Paths.get(currentDirectory)) && Files.isDirectory(Paths.get(currentDirectory))
+  def isValidFile (file: String): Boolean = {
+    val filePath = Paths.get(file)
+    Files.exists(filePath) && Files.isRegularFile(filePath)
   }
 
-  def getOwLintConfig (currentDirectory: String): Map[String, Boolean]  = {
-    // Read in .owlint config if the file exists
-    val configPath = currentDirectory + "/.owlint"
+  def isValidOwlFile (file: String): Boolean = {
+    file.split("\\.")(1) == "owl"
+  }
+
+  def isValidDirectory (directory: String): Boolean = {
+    val directoryPath = Paths.get(directory)
+    Files.exists(directoryPath) && Files.isDirectory(directoryPath)
+  }
+
+  def getOwLintConfig (lintingTarget: String, isFile: Boolean): Map[String, Boolean]  = {
+    val configPath = isFile match {
+      case true => Paths.get(lintingTarget).getParent + "/.owlint"
+      case false => lintingTarget + "/.owlint"
+    }
 
     if (Files.exists(Paths.get(configPath))) {
       val localConfigFile = Source.fromFile(configPath).mkString
       val confJson = localConfigFile.parseJson
       val config = confJson.convertTo[Map[String, Boolean]]
-    
+
       if (isOwLintConfigValid(config)) {
         return config
       } else {
         Console.err.println(Console.RED + "Error: .owlint file contains invalid options! Please check for errors!" + Console.RESET)
         sys.exit(1)
-      }      
+      }
     } else {
       return getDefaultConfig
     }
