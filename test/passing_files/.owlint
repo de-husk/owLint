@@ -1,0 +1,11 @@
+{
+  "ontology-must-have-version-info" : true,
+  "ontology-must-have-dc-title" : true,
+  "ontology-must-have-dc-creator" : true,
+  "ontology-must-have-only-one-dc-creator" : false,
+  "ontology-must-have-only-one-dc-contributor" : false,
+  "ontology-must-have-dc-date" : false,
+  "entities-must-have-rdfs-comment" : false,
+  "iris-and-labels-are-unique" : false,
+  "non-root-classes-need-genus-differentiation": false
+}

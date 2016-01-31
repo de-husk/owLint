@@ -8,7 +8,7 @@ import owLint._
 
 class LintingTestsSpec extends FlatSpec with Matchers{
   val ontologyManager: OWLOntologyManager = OWLManager.createOWLOntologyManager
-  
+
   val passingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza.owl"))
   val failingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-fails.owl"))
   val creatorFailingOntology: OWLOntology = ontologyManager.loadOntologyFromOntologyDocument(new File("./test/pizza-more-than-one-creator-fails.owl"))
@@ -25,7 +25,7 @@ class LintingTestsSpec extends FlatSpec with Matchers{
     assert(result.success == false)
     assert(result.offendingInstances.length != 0)
   }
- 
+
   "ontology-must-have-dc-title" should "return true on proper test owl file" in {
     val result = LinterTests.ontologyMustHaveDCTitle(passingOntology)
     assert(result.success == true)
@@ -89,7 +89,7 @@ class LintingTestsSpec extends FlatSpec with Matchers{
   "iris-and-labels-are-unique" should "return true on valid test owl file" in {
     val result = LinterTests.irisAndLabelsAreUnique(passingOntology)
     assert(result.success == true)
-    assert(result.offendingInstances.length == 0)  
+    assert(result.offendingInstances.length == 0)
   }
 
   it should "return false on invalid test owl file" in {
@@ -97,7 +97,7 @@ class LintingTestsSpec extends FlatSpec with Matchers{
     assert(result.success == false)
     assert(result.offendingInstances.length != 0)
   }
-  
+
   "non-root-classes-need-genus-differentiation" should "return true on valid test owl file" in {
     val result = LinterTests.nonRootClassesNeedGenusDifferentiation(genusDiffPassingOntology)
     assert(result.success == true)

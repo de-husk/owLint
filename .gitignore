@@ -5,6 +5,8 @@ target/
 
 [#]*[#]
 *~
+\#*\#
+.\#*
 
 .ensime_lucene/
 .ensime

@@ -7,7 +7,7 @@ class MainTestsSpec extends FlatSpec with Matchers {
     val fakeArgs = Array[String]()
     val currentDirectory = OwLintStarter.getCurrentDirectory(fakeArgs).get
     assert(currentDirectory == System.getProperty("user.dir"))
-  } 
+  }
 
   it should "return the inputted argument if there is only one inputted argument" in {
     val argument = "test"
@@ -55,4 +55,5 @@ class MainTestsSpec extends FlatSpec with Matchers {
     )
     assert(!OwLintStarter.isOwLintConfigValid(validConfig))
   }
+
 }

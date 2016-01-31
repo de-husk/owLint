@@ -25,8 +25,8 @@ object OwLintStarter {
 
   def main (args: Array[String]) = {
     deliverHelpTextIfNeeded(args)
-    
-    val currentDirectory = getCurrentDirectory(args) match { 
+
+    val currentDirectory = getCurrentDirectory(args) match {
       case Some(c) => c
       case None => sys.exit(1)
     }
@@ -49,6 +49,8 @@ object OwLintStarter {
     val ontologyManager: OWLOntologyManager = OWLManager.createOWLOntologyManager
     val owLinter = new OwLint(owLintConfig)
 
+    var allFilesPass = true
+
     owlFiles foreach { currentFile =>
       println(Console.YELLOW + "\n*** Processing " + currentFile.getName + " ***" + Console.RESET)
 
@@ -62,6 +64,7 @@ object OwLintStarter {
         val passes = result.success
         val errors = result.errors
         if (passes == false) {
+          allFilesPass = false
           println(Console.RED + "\nLint Failed!!" + Console.RESET)
 
           println(Console.MAGENTA+ "\n------------------------------" + Console.RESET)
@@ -79,9 +82,13 @@ object OwLintStarter {
         }
       }
     }
+
+    if (!allFilesPass) {
+      sys.exit(1)
+    }
   }
 
- 
+
   def deliverHelpTextIfNeeded (args: Array[String]) = {
     if (args.contains("-h") || args.contains("-help")) {
       // Display help information
