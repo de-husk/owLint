@@ -1,10 +1,10 @@
 /*
  Usage:
  *  This tool takes an optional argument, the path to the file to lint or to the folder
-    containing the owl files in question.
+ containing the owl files in question.
 
-    Use -h for more detail.
-*/
+ Use -h for more detail.
+ */
 
 package owLint
 
@@ -31,8 +31,6 @@ object OwLintStarter {
       case None => sys.exit(1)
     }
 
-
-    // TODO: Scala-ify below more:
     var isFile = false
 
     if (isValidDirectory(lintingTarget)) {
@@ -90,7 +88,7 @@ object OwLintStarter {
           errors.offendingLines foreach { line =>
             println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  +"\t" + line.content +  Console.RESET)
           }
-            println(Console.MAGENTA+ "------------------------------" + Console.RESET)
+          println(Console.MAGENTA+ "------------------------------" + Console.RESET)
 
         } else {
           println("[" + Console.GREEN + "success" + Console.RESET + "] " + result.name  +   " successfully passed!" + Console.RESET)
@@ -115,12 +113,12 @@ object OwLintStarter {
       println(Console.UNDERLINED + "owLint: OWL file linting tool " + Console.RESET)
       println(Console.CYAN + "This tool takes an optional argument, the path to the file to lint or to the folder containing the owl files in question." +  Console.RESET)
       println("Examples:" +
-        Console.GREEN + "\n   $ owlint                             " + Console.YELLOW + "| Use current directory" +
-        Console.GREEN + "\n   $ owlint owlFileFolder               " + Console.YELLOW + "| Use ./owlFileFolder as the directory" +
-        Console.GREEN + "\n   $ owlint /home/username/somedir      " + Console.YELLOW + "| Use absolute path /home/username/somedir as the directory" +
-        Console.GREEN + "\n   $ owlint someOwlFile.owl             " + Console.YELLOW + "| Only lint someOwlFile.owl (You can also use absolute paths for files)" +
-        Console.GREEN + "\n   $ owlint -h | -help                  " + Console.YELLOW + "| Displays help information" +
-        Console.RESET)
+                Console.GREEN + "\n   $ owlint                             " + Console.YELLOW + "| Use current directory" +
+                Console.GREEN + "\n   $ owlint owlFileFolder               " + Console.YELLOW + "| Use ./owlFileFolder as the directory" +
+                Console.GREEN + "\n   $ owlint /home/username/somedir      " + Console.YELLOW + "| Use absolute path /home/username/somedir as the directory" +
+                Console.GREEN + "\n   $ owlint someOwlFile.owl             " + Console.YELLOW + "| Only lint someOwlFile.owl (You can also use absolute paths for files)" +
+                Console.GREEN + "\n   $ owlint -h | -help                  " + Console.YELLOW + "| Displays help information" +
+                Console.RESET)
       sys.exit(0)
     }
   }
@@ -197,7 +195,7 @@ object OwLintStarter {
       "ontology-must-have-only-one-dc-contributor" -> true,
       "ontology-must-have-dc-date" -> true,
       "iris-and-labels-are-unique" -> true,
-       "non-root-classes-need-genus-differentiation" -> true,
+      "non-root-classes-need-genus-differentiation" -> true,
       "entities-must-have-rdfs-comment" -> true
     )
   }
