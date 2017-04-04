@@ -5,32 +5,32 @@ class MainTestsSpec extends FlatSpec with Matchers {
 
   "getCurrentDirectoy" should "return current directory if none is specified" in {
     val fakeArgs = Array[String]()
-    val currentDirectory = OwLintStarter.getLintingTargetFromArgs(fakeArgs).get
+    val currentDirectory = App.getLintingTargetFromArgs(fakeArgs).get
     assert(currentDirectory == System.getProperty("user.dir"))
   }
 
   it should "return the inputted argument if there is only one inputted argument" in {
     val argument = "test"
     val fakeArgs = Array(argument)
-    val currentDirectory = OwLintStarter.getLintingTargetFromArgs(fakeArgs).get
+    val currentDirectory = App.getLintingTargetFromArgs(fakeArgs).get
     assert(currentDirectory == argument)
   }
 
   it should "return None if inputted more than one argument" in {
     val fakeArgs = Array("wut", "I", "doing?")
-    val currentDirectory = OwLintStarter.getLintingTargetFromArgs(fakeArgs)
+    val currentDirectory = App.getLintingTargetFromArgs(fakeArgs)
     assert(currentDirectory == None)
   }
 
   "isValidDirectoryPath" should "return true for a valid directory" in {
     val validDirectoryPath = "./test"
-    val isValidDirectoryPath = OwLintStarter.isValidDirectory(validDirectoryPath)
+    val isValidDirectoryPath = App.isValidDirectory(validDirectoryPath)
     assert(isValidDirectoryPath == true)
   }
 
   it should "return false for an incorrect file path" in {
     val invalidPath = "./assdasdadasdasdasd"
-    val isValidDirectoryPath = OwLintStarter.isValidDirectory(invalidPath)
+    val isValidDirectoryPath = App.isValidDirectory(invalidPath)
     assert(isValidDirectoryPath == false)
   }
 
@@ -44,7 +44,7 @@ class MainTestsSpec extends FlatSpec with Matchers {
       "ontology-must-have-version-info" -> true, 
       "ontology-must-have-dc-title" -> false
     )
-    assert(OwLintStarter.isOwLintConfigValid(validConfig))
+    assert(App.isOwLintConfigValid(validConfig))
   }
 
   it should "return false with invalid config file (containing invalid option keys)" in {
@@ -52,7 +52,7 @@ class MainTestsSpec extends FlatSpec with Matchers {
       "totally-not-a-right-option" -> true, 
       "ontology-must-have-dc-title" -> false
     )
-    assert(!OwLintStarter.isOwLintConfigValid(validConfig))
+    assert(!App.isOwLintConfigValid(validConfig))
   }
 
 }

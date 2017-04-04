@@ -1,4 +1,4 @@
-#owLint [![Build Status](https://travis-ci.org/Samangan/owLint.svg?branch=master)](http://travis-ci.org/Samangan/owLint)
+# owLint [![Build Status](https://travis-ci.org/Samangan/owLint.svg?branch=master)](http://travis-ci.org/Samangan/owLint)
 
 
 owLint is a configurable command line OWL file linter. It utilizes the [OWL API](https://github.com/owlcs/owlapi).
@@ -7,7 +7,7 @@ owLint is distributed as a tool through [npm](https://www.npmjs.org/package/owli
 Install owLint globally via the following command: `npm install -g owlint`.
 
 Usage
-=====
+=======
 
 owLint will look in the defined directory for a .owlint configuration file and .owl files to lint.
 
@@ -47,16 +47,16 @@ Examples:
 
 List of Options
 =====================
-##Ontology
+## Ontology
 
-###ontology-must-have-version-info
+### ontology-must-have-version-info
 Each owl:Ontology must have an [owl:versionInfo](http://www.w3.org/TR/owl-ref/#versionInfo-def) annotation property.
 
-###ontology-must-have-dc-title
+### ontology-must-have-dc-title
 Each owl:Ontology must have a [dc:title](http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#title) annotation property.
 
-###ontology-must-have-dc-creator
-###ontology-must-have-only-one-dc-creator
+### ontology-must-have-dc-creator
+### ontology-must-have-only-one-dc-creator
 Each dc:creator annotation can only have one name listed in the annotation. It is impossible to perfectly enforce this rule, but this can catch the most common ways people try to place more than one person into a single dc:creator annotation.
 
 This test will fail if the dc:creator annotation contains any of the following: 
@@ -69,20 +69,24 @@ This test will fail if the dc:creator annotation contains any of the following:
 * |,
 * " and " (Notice the spaces padding the word. This is done to make sure that someone who has the substring and in their name will not make this lint fail). 
 
-##Entities
+## Entities
 
 
-###entities-must-have-rdfs-comment
+### entities-must-have-rdfs-comment
 All classes, individuals, object properties, data properties, and annotation properties defined within the currently linted IRI namespace must have rdfs:comment annotations.
   
 
-##Classes
+## Classes
 
-###non-root-classes-need-genus-differentiation
+### non-root-classes-need-genus-differentiation
+All non-root classes (Each owl:class with an rdfs:subclassOf statement)
+need to have a statement differentiating between other owl:classes that
+are also subclasses of the same parent owl:class. An example genus
+differentating statement takes the form:
+`rdfs:subClassOf <Object Property> <Quantifier> <named owl:class or anonymous class>`
+## General
 
-##General
-
-###iris-and-labels-are-unique
+### iris-and-labels-are-unique
 The human readable portion of IRIs and rdfs:labels must be a unique set. 
 
 Example of what would trigger a failure:
@@ -98,16 +102,16 @@ Example of what would trigger a failure:
 Development
 ===========
 
-###Compliling
+### Compliling
 ``sbt compile``
 
-###Building and Running
+### Building and Running
 ``sbt "run -help"``
 
-###Testing
+### Testing
 ``sbt test``
 
-###Adding additional linter options
+### Adding additional linter options
 To add your linter function add the function and full text description to the lintTestMappings Map.
 
 The linter function you add must be in the following format:

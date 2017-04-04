@@ -9,21 +9,17 @@
 package owLint
 
 import scala.io.Source
-import scala.util.matching.Regex
 import java.nio.file.{Paths, Files}
 import java.io.File
 import spray.json._
 import DefaultJsonProtocol._
-import owLint.BuildInfo
-
-
 import org.semanticweb.owlapi.model.OWLOntologyManager
 import org.semanticweb.owlapi.apibinding.OWLManager
 import org.semanticweb.owlapi.model.OWLOntology
 
-object OwLintStarter {
 
-  def main (args: Array[String]) = {
+object App {
+  def main(args: Array[String]) = {
     deliverHelpTextIfNeeded(args)
 
     val lintingTarget = getLintingTargetFromArgs(args) match {
@@ -31,21 +27,7 @@ object OwLintStarter {
       case None => sys.exit(1)
     }
 
-    var isFile = false
-
-    if (isValidDirectory(lintingTarget)) {
-      isFile = false
-    } else if (isValidFile(lintingTarget)) {
-      isFile = true
-      if (!isValidOwlFile(lintingTarget)) {
-        Console.err.println(Console.RED + "Error: " + lintingTarget + " is not an owl file!\nUse -h for help information." + Console.RESET)
-        sys.exit(1)
-      }
-    } else {
-      Console.err.println(Console.RED + "Error: " + lintingTarget + " is not a real file or directory!\nUse -h for help information." + Console.RESET)
-      sys.exit(1)
-    }
-
+    val isFile = isLintingTargetAFile(lintingTarget)
     val owLintConfig: Map[String, Boolean] = getOwLintConfig(lintingTarget, isFile)
 
     val owlFiles = isFile match {
@@ -54,7 +36,10 @@ object OwLintStarter {
     }
 
     if (owlFiles.length == 0) {
-      Console.err.println(Console.RED + "Error: " + lintingTarget + " has no owl files!\nUse -h for help information." + Console.RESET)
+      Console.err.println(
+        Console.RED + "Error: " + lintingTarget +
+          " has no owl files!\nUse -h for help information." + Console.RESET
+      )
       sys.exit(1)
     }
 
@@ -75,7 +60,7 @@ object OwLintStarter {
       results foreach { result =>
         val passes = result.success
         val errors = result.errors
-        if (passes == false) {
+        if (!passes) {
           allFilesPass = false
           println(Console.RED + "[error] " + result.name + Console.RESET)
           println(Console.RED + "\nLint Failed!" + Console.RESET)
@@ -89,7 +74,6 @@ object OwLintStarter {
             println(Console.GREEN + "\t[" + line.tyype + "] " + Console.RED  +"\t" + line.content +  Console.RESET)
           }
           println(Console.MAGENTA+ "------------------------------" + Console.RESET)
-
         } else {
           println("[" + Console.GREEN + "success" + Console.RESET + "] " + result.name  +   " successfully passed!" + Console.RESET)
         }
@@ -102,7 +86,7 @@ object OwLintStarter {
   }
 
 
-  def deliverHelpTextIfNeeded (args: Array[String]) = {
+  def deliverHelpTextIfNeeded(args: Array[String]) = {
     if (args.contains("-v") || args.contains("-version")) {
       println(Console.GREEN + "\n" + BuildInfo.name + " " + BuildInfo.version + Console.RESET)
       sys.exit(0)
@@ -123,8 +107,7 @@ object OwLintStarter {
     }
   }
 
-
-  def getLintingTargetFromArgs (args: Array[String]): Option[String] = {
+  def getLintingTargetFromArgs(args: Array[String]): Option[String] = {
     args.length match {
       case 0 => Some(System.getProperty("user.dir")) // Use current dir as linting target
       case 1 => Some(args(0))                        // Use inputted dir or file as linting target
@@ -135,21 +118,42 @@ object OwLintStarter {
     }
   }
 
-  def isValidFile (file: String): Boolean = {
+  def isLintingTargetAFile(lintingTarget: String): Boolean = {
+    if (isValidDirectory(lintingTarget)) {
+      return false
+    } else if (isValidFile(lintingTarget)) {
+      if (!isValidOwlFile(lintingTarget)) {
+        Console.err.println(
+          Console.RED + "Error: " + lintingTarget +
+            " is not an owl file!\nUse -h for help information." + Console.RESET
+        )
+        sys.exit(1)
+      }
+      return true
+    }
+    Console.err.println(
+      Console.RED + "Error: " + lintingTarget +
+        " is not a real file or directory!\nUse -h for help information." + Console.RESET
+    )
+    sys.exit(1)
+  }
+
+
+  def isValidFile(file: String): Boolean = {
     val filePath = Paths.get(file)
     Files.exists(filePath) && Files.isRegularFile(filePath)
   }
 
-  def isValidOwlFile (file: String): Boolean = {
+  def isValidOwlFile(file: String): Boolean = {
     file.split("\\.")(1) == "owl"
   }
 
-  def isValidDirectory (directory: String): Boolean = {
+  def isValidDirectory(directory: String): Boolean = {
     val directoryPath = Paths.get(directory)
     Files.exists(directoryPath) && Files.isDirectory(directoryPath)
   }
 
-  def getOwLintConfig (lintingTarget: String, isFile: Boolean): Map[String, Boolean]  = {
+  def getOwLintConfig(lintingTarget: String, isFile: Boolean): Map[String, Boolean]  = {
     val configPath = isFile match {
       case true => Paths.get(lintingTarget).getParent + "/.owlint"
       case false => lintingTarget + "/.owlint"
@@ -163,7 +167,10 @@ object OwLintStarter {
       if (isOwLintConfigValid(config)) {
         return config
       } else {
-        Console.err.println(Console.RED + "Error: .owlint file contains invalid options! Please check for errors!" + Console.RESET)
+        Console.err.println(
+          Console.RED + "Error: .owlint file contains invalid options! Please check for errors!" +
+            Console.RESET
+        )
         sys.exit(1)
       }
     } else {
@@ -171,7 +178,7 @@ object OwLintStarter {
     }
   }
 
-  def isOwLintConfigValid (config: Map[String, Boolean]): Boolean = {
+  def isOwLintConfigValid(config: Map[String, Boolean]): Boolean = {
     val defaultConf = getDefaultConfig
 
     config.keys foreach { key =>
@@ -200,7 +207,7 @@ object OwLintStarter {
     )
   }
 
-  def getOwlFilesInCurrDirectory (currentDirectory: String): Array[File] = {
+  def getOwlFilesInCurrDirectory(currentDirectory: String): Array[File] = {
     val currFolder: File = new File(currentDirectory)
     val listOfFiles = currFolder.listFiles()
     val owlFileRegex = """.+\.owl""".r
