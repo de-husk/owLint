@@ -1,8 +1,8 @@
 package owLint
 
-import org.semanticweb.owlapi.model._
-import org.semanticweb.owlapi.model.OWLOntology
-import collection.JavaConversions._
+import org.semanticweb.owlapi.model.{OWLOntology, _}
+
+import scala.collection.JavaConversions._
 
 // Put all new tests in this object.
 object LinterTests {

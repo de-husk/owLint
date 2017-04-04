@@ -8,15 +8,15 @@
 
 package owLint
 
-import scala.io.Source
-import java.nio.file.{Paths, Files}
 import java.io.File
-import spray.json._
-import DefaultJsonProtocol._
-import org.semanticweb.owlapi.model.OWLOntologyManager
-import org.semanticweb.owlapi.apibinding.OWLManager
-import org.semanticweb.owlapi.model.OWLOntology
+import java.nio.file.{Files, Paths}
 
+import org.semanticweb.owlapi.apibinding.OWLManager
+import org.semanticweb.owlapi.model.{OWLOntology, OWLOntologyManager}
+import spray.json.DefaultJsonProtocol._
+import spray.json._
+
+import scala.io.Source
 
 object App {
   def main(args: Array[String]) = {
